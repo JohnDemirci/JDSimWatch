@@ -1,0 +1,16 @@
+-----------------------------
+-- xcodebuild.nvim summary --
+-----------------------------
+
+Errors:
+  ✖ /Users/johndemirci/Documents/XcodeApps/JDSimWatch/JDSimWatch/UI/SimulatorDetailView.swift:22:78
+    expected ',' separator
+                        destination: { RunningProcessesView(simulator: simulator }, 
+                                                                                 ^
+  ✖ /Users/johndemirci/Documents/XcodeApps/JDSimWatch/JDSimWatch/UI/SimulatorDetailView.swift:22:78
+    expected expression in list of expressions
+                        destination: { RunningProcessesView(simulator: simulator }, 
+                                                                                 ^
+
+  Build Failed
+
