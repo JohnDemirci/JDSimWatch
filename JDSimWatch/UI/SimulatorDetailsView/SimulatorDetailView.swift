@@ -25,7 +25,7 @@ struct SimulatorDetailView: View {
 						EraseContentsView(simulator: simulator)
 						InstalledApplicationsButtonView(simulator: simulator)
 					}
-					.frame(maxWidth: 200, maxHeight: 100, alignment: .center)
+                    .frame(maxWidth: 200, maxHeight: 100, alignment: .leading)
 				}
 			}
 		}

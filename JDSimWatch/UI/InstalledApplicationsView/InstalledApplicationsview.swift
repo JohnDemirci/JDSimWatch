@@ -10,18 +10,30 @@ import SwiftUI
 
 struct InstalledApplicationsView: View {
 	@Environment(\.shell) private var shell
+    @Environment(\.dismiss) private var dismiss
+
 	@State private var viewModel = InstalledApplicationsViewModel()
 	let simulator: Simulator
 
 	var body: some View {
 		List {
-			ForEach(Array(viewModel.installedApplications.keys), id: \.self) {
-				Text($0)
-			}
+            ForEach(viewModel.installedApplications, id: \.self) { apps in
+                Text(apps.displayName ?? "")
+            }
 		}
 		.onAppear {
 			viewModel.fetchInstalledApplications(simulator.id)
 		}
+        .toolbar {
+            ToolbarItem(placement: .navigation) {
+                Button(
+                    action: { dismiss() },
+                    label: {
+                        Image(systemName: "chevron.left")
+                    }
+                )
+            }
+        }
 	}
 }
 
