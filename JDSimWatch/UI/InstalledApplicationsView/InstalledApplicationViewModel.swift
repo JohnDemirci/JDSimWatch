@@ -27,7 +27,7 @@ final class InstalledApplicationsViewModel {
 }
 
 extension InstalledApplicationsViewModel {
-    struct AppInfo: Codable, Hashable {
+    struct AppInfo: Hashable {
         var applicationType: String?
         var bundle: String?
         var displayName: String?
@@ -36,17 +36,6 @@ extension InstalledApplicationsViewModel {
         var bundleVersion: String?
         var dataContainer: String?
         var path: String?
-
-        enum CodingKeys: String, CodingKey, CaseIterable {
-            case applicationType = "ApplicationType"
-            case bundle = "Bundle"
-            case displayName = "CFBundleDisplayName"
-            case bundleIdentifier = "CFBundleIdentifier"
-            case bundleName = "CFBundleName"
-            case bundleVersion = "CFBundleVersion"
-            case dataContainer = "DataContainer"
-            case path = "Path"
-        }
     }
 
 
@@ -55,7 +44,8 @@ extension InstalledApplicationsViewModel {
         var appInfos: [AppInfo] = []
 
         for var index in 0..<newArray.count {
-            if newArray[index].localizedStandardContains("ApplicationType") {
+            let xxx = newArray[index]
+            if xxx.localizedStandardContains("ApplicationType") {
                 var appInfo = AppInfo()
 
                 appInfo.bundleIdentifier = newArray[index - 1]
@@ -81,7 +71,9 @@ extension InstalledApplicationsViewModel {
                 appInfo.applicationType = applicationType
 
                 for innerIndex in index + 1..<newArray.count {
-                    if newArray[innerIndex].localizedStandardContains("ApplicationType") {
+                    if newArray[innerIndex].localizedStandardContains("ApplicationType") ||
+                       innerIndex == newArray.count - 1
+                    {
                         index = innerIndex - 1
                         appInfos.append(appInfo)
                         break
@@ -131,6 +123,9 @@ extension InstalledApplicationsViewModel {
                                 .trimmingCharacters(in: .whitespacesAndNewlines)
                                 .replacingOccurrences(of: ";", with: "")
                                 .replacingOccurrences(of: "\"", with: "")
+                                .replacingOccurrences(of: "file://", with: "")
+
+                            dump(dataContainer)
 
                             appInfo.dataContainer = dataContainer
                         } else if work.localizedStandardContains("Path") {
@@ -148,8 +143,6 @@ extension InstalledApplicationsViewModel {
             }
         }
 
-        return appInfos.filter {
-            $0.applicationType == "User"
-        }
+        return appInfos
 	}
 }
