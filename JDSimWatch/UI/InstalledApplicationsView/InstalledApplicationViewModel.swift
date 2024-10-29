@@ -15,10 +15,11 @@ final class InstalledApplicationsViewModel {
 	func fetchInstalledApplications(_ simulatorID: String) {
 		let shell = EnvironmentValues().shell
 
-		let result = shell.execute(command: .installedApps(simulatorID))
+		let result = shell.execute(.installedApps(simulatorID))
 
 		switch result {
 		case .success(let output):
+            guard let output else { return }
             self.installedApplications = parseAppInfo(from: output)
 		case .failure(let error):
 			dump(error.localizedDescription)

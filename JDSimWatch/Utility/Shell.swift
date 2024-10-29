@@ -8,10 +8,23 @@
 import SwiftUI
 
 struct Shell {
-    @discardableResult
-    func execute(command: Shell.Command) -> Result<String, Error> {
+    func execute(_ command: Shell.Command) -> Result<String?, Error> {
+        switch command {
+        case .fetchBootedSimulators,
+             .shotdown,
+             .activeProcesses,
+             .installedApps,
+             .fetchAllSimulators:           basicExecute(command)
+
+        case .eraseContents(let uuid):      eraseContent(uuid: uuid)
+
+        case .openSimulator(let uuid):      openSimulator(uuid: uuid)
+        }
+    }
+
+    private func basicExecute(_ command: Shell.Command) -> Result<String?, Error> {
         let process = Process()
-		process.executableURL = URL(fileURLWithPath: command.path)
+        process.executableURL = URL(fileURLWithPath: command.path)
         process.arguments = command.arguments
 
         let pipe = Pipe()
@@ -33,7 +46,7 @@ struct Shell {
         return .success(stringOutput)
     }
 
-	func eraseContent(uuid: String) {
+    private func eraseContent(uuid: String) -> Result<String?, Error> {
 		let shutdownProcess = Process()
 		let eraseProcess = Process()
 
@@ -52,14 +65,15 @@ struct Shell {
 			try eraseProcess.run()
 			eraseProcess.waitUntilExit()
 
-			openSimulator(uuid: uuid)
+			_ = openSimulator(uuid: uuid)
+            return .success(nil)
 		} catch {
-			dump(error.localizedDescription)
+            return .failure(error)
 		}
 	}
 
 	@discardableResult
-    func openSimulator(uuid: String) -> Result<Void, Error> {
+    private func openSimulator(uuid: String) -> Result<String?, Error> {
         let bootProcess = Process()
         bootProcess.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
         bootProcess.arguments = ["simctl", "boot", uuid]
@@ -75,7 +89,7 @@ struct Shell {
             try openProcess.run()
             openProcess.waitUntilExit()
 
-            return .success(())
+            return .success(nil)
         } catch {
             print("Failed to open simulator: \(error)")
             return .failure(error)
@@ -94,6 +108,7 @@ extension Shell {
         case fetchBootedSimulators
         case fetchAllSimulators
         case shotdown(String)
+        case openSimulator(String)
 		case activeProcesses(String)
 		case eraseContents(String) // do not exclusively call this when executing command use the helper function
 		case installedApps(String)
@@ -112,6 +127,8 @@ extension Shell {
 				"/usr/bin/xcrun"
 			case .installedApps:
 				"/usr/bin/xcrun"
+            case .openSimulator:
+                ""
 			}
 		}
 
@@ -134,6 +151,9 @@ extension Shell {
 
 			case .activeProcesses(let uuid):
 				["-c", "xcrun simctl spawn \(uuid) launchctl list"]
+
+            case .openSimulator:
+                []
             }
         }
     }
@@ -146,6 +166,5 @@ private struct ShellEnvironmentKey: EnvironmentKey {
 extension EnvironmentValues {
     var shell: Shell {
         get { self[ShellEnvironmentKey.self] }
-        set { self[ShellEnvironmentKey.self] = newValue }
     }
 }

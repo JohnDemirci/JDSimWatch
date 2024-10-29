@@ -58,13 +58,12 @@ extension SimulatorManager {
         let environmentValues = EnvironmentValues()
         let shell = environmentValues.shell
 
-        let result = shell.execute(
-            command: .fetchBootedSimulators
-        )
+        let result = shell.execute(.fetchBootedSimulators)
 
-        guard case .success(let output) = result else {
-            return
-        }
+        guard
+            case .success(let output) = result,
+            let output
+        else { return }
 
         let list = output
             .split(separator: "\n")
@@ -84,9 +83,7 @@ extension SimulatorManager {
         let environmentValues = EnvironmentValues()
         let shell = environmentValues.shell
 
-        let result = shell.execute(
-            command: .shotdown(simulator.id)
-        )
+        let result = shell.execute(.shotdown(simulator.id))
 
         switch result {
         case .success:
