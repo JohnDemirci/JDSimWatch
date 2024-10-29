@@ -10,13 +10,15 @@ import SwiftUI
 struct InacvtiveSimulatorsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.shell) private var shell
-    @Environment(SimulatorManager.self) private var store
     @State private var parser = InactiveSimulatorParser()
+    @Bindable var manager: SimulatorManager
 
     var body: some View {
         List {
-            InactiveSimulatorsSectionView(osVersions: parser.osVersionsAndDevices)
-                .environment(store)
+            InactiveSimulatorsSectionView(
+                osVersions: parser.osVersionsAndDevices,
+                manager: manager
+            )
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {

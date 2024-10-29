@@ -9,11 +9,10 @@ import SwiftUI
 
 @main
 struct SimuWatchApp: App {
-    @State private var store = SimulatorManager()
+    @State private var manager = SimulatorManager()
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(store)
+            ContentView(manager: manager)
         }
     }
 }

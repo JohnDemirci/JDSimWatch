@@ -8,18 +8,16 @@
 import SwiftUI
 
 struct InactiveSimulatorsSectionView: View {
-    @Environment(SimulatorManager.self) private var store
-    private let osVersions: [InactiveSimulatorParser.OSVersion]
-
-    init(osVersions: [InactiveSimulatorParser.OSVersion]) {
-        self.osVersions = osVersions
-    }
+   let osVersions: [InactiveSimulatorParser.OSVersion]
+    @Bindable var manager: SimulatorManager
 
     var body: some View {
         ForEach(osVersions) { osVersion in
             Section("\(osVersion.name) \(osVersion.version)") {
-                InactiveSimulatorsSectionContentView(version: osVersion)
-                    .environment(store)
+                InactiveSimulatorsSectionContentView(
+                    version: osVersion,
+                    manager: manager
+                )
             }
         }
     }
@@ -27,12 +25,8 @@ struct InactiveSimulatorsSectionView: View {
 
 struct InactiveSimulatorsSectionContentView: View {
     @Environment(\.shell) private var shell
-    @Environment(SimulatorManager.self) private var store
-    private let version: InactiveSimulatorParser.OSVersion
-
-    init(version: InactiveSimulatorParser.OSVersion) {
-        self.version = version
-    }
+    let version: InactiveSimulatorParser.OSVersion
+    @Bindable var manager: SimulatorManager
 
     var body: some View {
         ForEach(version.devices) { device in
@@ -41,7 +35,7 @@ struct InactiveSimulatorsSectionContentView: View {
                     action: {
                         switch shell.openSimulator(uuid: device.uuid) {
                         case .success:
-                            store.fetchSimulators()
+                            manager.fetchSimulators()
                         case .failure(let error):
                             break
                         }

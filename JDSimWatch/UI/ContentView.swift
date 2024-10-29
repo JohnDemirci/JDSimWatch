@@ -9,25 +9,26 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(\.shell) private var shell
-    @Environment(SimulatorManager.self) private var store
+
+    @Bindable var manager: SimulatorManager
 
     var body: some View {
         NavigationSplitView(
             sidebar: {
                 List {
-                    ForEach(store.simulators) { simulator in
+                    ForEach(manager.simulators) { simulator in
                         Button(simulator.name) {
-                            store.didSelectSimulator(simulator)
+                            manager.didSelectSimulator(simulator)
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                         .font(.title3)
                         .buttonStyle(.plain)
                         .padding(4)
-                        .background(store.selectedSimulator == simulator ? .red : .clear)
+                        .background(manager.selectedSimulator == simulator ? .red : .clear)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .contextMenu {
                             Button("Shutdown") {
-                                store.shutdownSimulator(simulator)
+                                manager.shutdownSimulator(simulator)
                             }
                         }
                     }
@@ -36,14 +37,13 @@ struct ContentView: View {
             },
             detail: {
                 Group {
-                    if let selectedSimulator = store.selectedSimulator {
+                    if let selectedSimulator = manager.selectedSimulator {
                         SimulatorDetailView(simulator: selectedSimulator)
                     } else {
                         VStack {
                             ContentUnavailableView("No Active Simulator", systemImage: "tray")
                             NavigationLink("Fetch Inactive Simulators") {
-                                InacvtiveSimulatorsView()
-                                    .environment(store)
+                                InacvtiveSimulatorsView(manager: manager)
                             }
                         }
                     }
@@ -51,8 +51,7 @@ struct ContentView: View {
                 .toolbar {
                     NavigationLink(
                         destination: {
-                            InacvtiveSimulatorsView()
-                                .environment(store)
+                            InacvtiveSimulatorsView(manager: manager)
                         },
                         label: {
                             Text("Simulators")
