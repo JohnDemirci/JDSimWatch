@@ -16,22 +16,12 @@ struct SimulatorDetailView: View {
     }
 
     var body: some View {
-		ScrollView {
-			Grid {
-				GridRow {
-					Group {
-						ProcessesNavigationLink(simulator: simulator)
-						GoToDocumentsView(simulator: simulator)
-						EraseContentsView(simulator: simulator)
-						InstalledApplicationsButtonView(simulator: simulator)
-					}
-                    .frame(maxWidth: 200, maxHeight: 100, alignment: .leading)
-				}
-			}
-		}
-		.padding(.top, 20)
-		.frame(maxWidth: .infinity)
-		.scrollIndicators(.hidden)
+        List {
+            ProcessesNavigationLink(simulator: simulator)
+            GoToDocumentsView(simulator: simulator)
+            EraseContentsView(simulator: simulator)
+            InstalledApplicationsButtonView(simulator: simulator)
+        }
 		.navigationTitle(simulator.name)
     }
 }
@@ -40,15 +30,9 @@ private struct GoToDocumentsView: View {
 	let simulator: Simulator
 
 	var body: some View {
-		Button(
-			action: {
-				goToDocuments()
-			},
-			label: {
-				VerticalLabeledContentView(systemImage: "folder.fill", text: "Documents")
-			}
-		)
-		.buttonStyle(PlainButtonStyle())
+        ListRowTapableButton("Documents") {
+            goToDocuments()
+        }
 	}
 }
 
@@ -70,10 +54,7 @@ private struct ProcessesNavigationLink: View {
 				RunningProcessesView(simulator: simulator)
 			},
 			label: {
-				VerticalLabeledContentView(
-					systemImage: "list.bullet.rectangle",
-					text: "Processes"
-				)
+                Text("Processes")
 			}
 		)
 		.buttonStyle(PlainButtonStyle())
@@ -83,19 +64,11 @@ private struct ProcessesNavigationLink: View {
 private struct EraseContentsView: View {
 	@Environment(\.shell) private var shell
 	let simulator: Simulator
+
 	var body: some View {
-		Button(
-			action: {
-				eraseSimulator()
-			},
-			label: {
-				VerticalLabeledContentView(
-					systemImage: "arrow.clockwise",
-					text: "Erase Content"
-				)
-			}
-		)
-		.buttonStyle(PlainButtonStyle())
+        ListRowTapableButton("Erase Contents") {
+            eraseSimulator()
+        }
 	}
 }
 
@@ -118,14 +91,9 @@ private struct InstalledApplicationsButtonView: View {
 
 	var body: some View {
 		NavigationLink(
-			destination: {
-				InstalledApplicationsView(simulator: simulator)
-			},
+			destination: { InstalledApplicationsView(simulator: simulator) },
 			label: {
-				VerticalLabeledContentView(
-					systemImage: "app.badge.fill",
-					text: "Applications"
-				)
+				Text("Installed Applications")
 			}
 		)
 		.buttonStyle(PlainButtonStyle())
