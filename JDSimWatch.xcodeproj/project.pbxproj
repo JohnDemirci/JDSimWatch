@@ -19,6 +19,8 @@
 		587A051D2C7CEA2200D32C10 /* InactiveSimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05122C7CEA2200D32C10 /* InactiveSimulatorView.swift */; };
 		587A051E2C7CEA2200D32C10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05142C7CEA2200D32C10 /* ContentView.swift */; };
 		587A051F2C7CEA2200D32C10 /* SimulatorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05152C7CEA2200D32C10 /* SimulatorDetailView.swift */; };
+		588E49E52CD14C090025F0AF /* OptionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588E49E42CD14C050025F0AF /* OptionalView.swift */; };
+		588E49E72CD15B430025F0AF /* AppSandboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588E49E62CD15B380025F0AF /* AppSandboxView.swift */; };
 		58C75CBA2C8FD87500990DBB /* InstalledApplicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */; };
 		58F1F2D72C8FC4BF00ED95FB /* InstalledApplicationsview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */; };
 /* End PBXBuildFile section */
@@ -38,6 +40,8 @@
 		587A05122C7CEA2200D32C10 /* InactiveSimulatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveSimulatorView.swift; sourceTree = "<group>"; };
 		587A05142C7CEA2200D32C10 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		587A05152C7CEA2200D32C10 /* SimulatorDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulatorDetailView.swift; sourceTree = "<group>"; };
+		588E49E42CD14C050025F0AF /* OptionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalView.swift; sourceTree = "<group>"; };
+		588E49E62CD15B380025F0AF /* AppSandboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSandboxView.swift; sourceTree = "<group>"; };
 		58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledApplicationViewModel.swift; sourceTree = "<group>"; };
 		58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledApplicationsview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -145,18 +149,36 @@
 		587A05172C7CEA2200D32C10 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				588E49E32CD14BEF0025F0AF /* ReusableViews */,
+				588E49DF2CD149580025F0AF /* InitialView */,
 				58F1F2D52C8FC49800ED95FB /* InstalledApplicationsView */,
 				58697EA52C8EA3B50067BCA8 /* SimulatorDetailsView */,
 				585B51592C7FE27800F8FBE5 /* RunningProcessesView */,
 				587A05132C7CEA2200D32C10 /* AllSimulatorsView */,
-				587A05142C7CEA2200D32C10 /* ContentView.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		588E49DF2CD149580025F0AF /* InitialView */ = {
+			isa = PBXGroup;
+			children = (
+				587A05142C7CEA2200D32C10 /* ContentView.swift */,
+			);
+			path = InitialView;
+			sourceTree = "<group>";
+		};
+		588E49E32CD14BEF0025F0AF /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				588E49E42CD14C050025F0AF /* OptionalView.swift */,
+			);
+			path = ReusableViews;
 			sourceTree = "<group>";
 		};
 		58F1F2D52C8FC49800ED95FB /* InstalledApplicationsView */ = {
 			isa = PBXGroup;
 			children = (
+				588E49E62CD15B380025F0AF /* AppSandboxView.swift */,
 				58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */,
 				58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */,
 			);
@@ -239,12 +261,14 @@
 				587A05182C7CEA2200D32C10 /* Simulator.swift in Sources */,
 				58697EA82C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift in Sources */,
 				587A051D2C7CEA2200D32C10 /* InactiveSimulatorView.swift in Sources */,
+				588E49E72CD15B430025F0AF /* AppSandboxView.swift in Sources */,
 				587A051E2C7CEA2200D32C10 /* ContentView.swift in Sources */,
 				587A051B2C7CEA2200D32C10 /* InactiveSimulatorParser.swift in Sources */,
 				587A051A2C7CEA2200D32C10 /* SimuWatchApp.swift in Sources */,
 				587A051C2C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift in Sources */,
 				58C75CBA2C8FD87500990DBB /* InstalledApplicationViewModel.swift in Sources */,
 				58F1F2D72C8FC4BF00ED95FB /* InstalledApplicationsview.swift in Sources */,
+				588E49E52CD14C090025F0AF /* OptionalView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
