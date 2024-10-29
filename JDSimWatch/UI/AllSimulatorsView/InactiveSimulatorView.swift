@@ -32,15 +32,15 @@ struct InacvtiveSimulatorsView: View {
         }
         .onAppear {
             // fetch the inactive simulators
-            let result = shell.execute(
-                command: .fetchAllSimulators
-            )
+            let result = shell.execute(.fetchAllSimulators)
 
-            guard case .success(let output) = result else {
+            guard
+                case .success(let output) = result,
+                let output
+            else {
+                // TODO: - handle errors and nil output
                 return
             }
-
-            print(output)
 
             parser.parseDeviceInfo(output)
         }

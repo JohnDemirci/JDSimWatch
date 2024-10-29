@@ -71,12 +71,16 @@ final class RunningProcessesViewModel {
 	func fetchRunningProcesses(_ simulatorID: String) {
 		let shell = EnvironmentValues().shell
 
-		switch shell.execute(
-			command: .activeProcesses(simulatorID)
-		) {
+		switch shell.execute(.activeProcesses(simulatorID)) {
 		case .success(let output):
+            guard let output else {
+                // TODO: - handle nil cases
+                return
+            }
+
 			parseOutputData(output)
 		case .failure(let error):
+            // TODO: - handle error
 			break
 		}
 	}

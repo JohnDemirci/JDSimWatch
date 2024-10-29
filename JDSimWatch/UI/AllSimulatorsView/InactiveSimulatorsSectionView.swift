@@ -33,10 +33,11 @@ struct InactiveSimulatorsSectionContentView: View {
             LabeledContent(device.name) {
                 Button(
                     action: {
-                        switch shell.openSimulator(uuid: device.uuid) {
+                        switch shell.execute(.openSimulator(device.uuid)) {
                         case .success:
                             manager.fetchSimulators()
                         case .failure(let error):
+                            // TODO: - handle errors
                             break
                         }
                     },

@@ -101,7 +101,15 @@ private struct EraseContentsView: View {
 
 extension EraseContentsView {
 	func eraseSimulator() {
-		shell.eraseContent(uuid: simulator.id)
+        let result = shell.execute(.eraseContents(simulator.id))
+
+        switch result {
+        case .success:
+            // TODO: - handle
+            break
+        case .failure(let error):
+            dump(error.localizedDescription)
+        }
 	}
 }
 
