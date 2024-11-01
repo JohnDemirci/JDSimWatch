@@ -12,6 +12,7 @@ struct InacvtiveSimulatorsView: View {
     @Environment(\.shell) private var shell
     @State private var parser = InactiveSimulatorParser()
     @Bindable var manager: SimulatorManager
+    @State private var failure: Failure?
 
     var body: some View {
         List {
@@ -31,18 +32,26 @@ struct InacvtiveSimulatorsView: View {
             }
         }
         .onAppear {
-            // fetch the inactive simulators
             let result = shell.execute(.fetchAllSimulators)
 
-            guard
-                case .success(let output) = result,
-                let output
-            else {
-                // TODO: - handle errors and nil output
-                return
-            }
+            switch result {
+            case .success(let maybeOutput):
+                guard let output = maybeOutput else {
+                    failure = .message("No simulators found")
+                    return
+                }
 
-            parser.parseDeviceInfo(output)
+                parser.parseDeviceInfo(output)
+                
+            case .failure(let error):
+                self.failure = .message(error.localizedDescription)
+            }
+        }
+        .alert(item: $manager.failure) {
+            Alert(title: Text($0.description))
+        }
+        .alert(item: $failure) {
+            Alert(title: Text($0.description))
         }
         .navigationTitle("Simulator List")
     }

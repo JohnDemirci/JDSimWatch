@@ -11,6 +11,7 @@ import SwiftUI
 @Observable
 final class InstalledApplicationsViewModel {
     var installedApplications: [AppInfo] = []
+    var failure: Failure?
 
 	func fetchInstalledApplications(_ simulatorID: String) {
 		let shell = EnvironmentValues().shell
@@ -19,10 +20,13 @@ final class InstalledApplicationsViewModel {
 
 		switch result {
 		case .success(let output):
-            guard let output else { return }
+            guard let output else {
+                failure = .message("No apps found")
+                return
+            }
             self.installedApplications = parseAppInfo(from: output)
 		case .failure(let error):
-			dump(error.localizedDescription)
+            failure = .message(error.localizedDescription)
 		}
 	}
 }

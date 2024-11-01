@@ -31,6 +31,9 @@ struct RunningProcessesView: View {
 		.onAppear {
 			viewModel.fetchRunningProcesses(simulator.id)
 		}
+        .alert(item: $viewModel.failure) {
+            Alert(title: Text($0.description))
+        }
 		.toolbar {
 			ToolbarItem(placement: .navigation) {
 				Button(
@@ -59,6 +62,7 @@ struct ProcessInfo: Identifiable, Hashable {
 final class RunningProcessesViewModel {
 	private var processes: [ProcessInfo] = []
 	var filter: String = ""
+    var failure: Failure?
 
 	var filteredProcesses: [ProcessInfo] {
 		if filter.isEmpty { return processes }
@@ -74,13 +78,13 @@ final class RunningProcessesViewModel {
 		switch shell.execute(.activeProcesses(simulatorID)) {
 		case .success(let output):
             guard let output else {
-                // TODO: - handle nil cases
+                failure = .message("No active processes found.")
                 return
             }
 
 			parseOutputData(output)
 		case .failure(let error):
-            // TODO: - handle error
+            failure = .message("Failed to fetch active processes: \(error)")
 			break
 		}
 	}

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		583EAB3A2CD48114007F4AB6 /* Failure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EAB392CD48111007F4AB6 /* Failure.swift */; };
 		585B515B2C7FE28A00F8FBE5 /* RunningProcessesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */; };
 		58697EA82C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */; };
 		587A05012C7CE9CA00D32C10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587A05002C7CE9CA00D32C10 /* Assets.xcassets */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		583EAB392CD48111007F4AB6 /* Failure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Failure.swift; sourceTree = "<group>"; };
 		585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningProcessesView.swift; sourceTree = "<group>"; };
 		58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabeledContentView.swift; sourceTree = "<group>"; };
 		587A04F92C7CE9C900D32C10 /* JDSimWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JDSimWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +133,7 @@
 		587A050E2C7CEA2200D32C10 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				583EAB392CD48111007F4AB6 /* Failure.swift */,
 				587A050D2C7CEA2200D32C10 /* Shell.swift */,
 			);
 			path = Utility;
@@ -265,6 +268,7 @@
 				587A051E2C7CEA2200D32C10 /* ContentView.swift in Sources */,
 				587A051B2C7CEA2200D32C10 /* InactiveSimulatorParser.swift in Sources */,
 				587A051A2C7CEA2200D32C10 /* SimuWatchApp.swift in Sources */,
+				583EAB3A2CD48114007F4AB6 /* Failure.swift in Sources */,
 				587A051C2C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift in Sources */,
 				58C75CBA2C8FD87500990DBB /* InstalledApplicationViewModel.swift in Sources */,
 				58F1F2D72C8FC4BF00ED95FB /* InstalledApplicationsview.swift in Sources */,
