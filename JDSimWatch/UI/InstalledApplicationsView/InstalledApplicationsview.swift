@@ -19,7 +19,10 @@ struct InstalledApplicationsView: View {
 		List {
             ForEach(viewModel.installedApplications, id: \.self) { apps in
                 NavigationLink(apps.displayName ?? "N/A") {
-                    AppSandboxView(app: apps)
+					AppSandboxView(
+						app: apps,
+						simulatorID: simulator.id
+					)
                 }
             }
 		}

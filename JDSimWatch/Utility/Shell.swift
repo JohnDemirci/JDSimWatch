@@ -12,6 +12,7 @@ struct Shell {
         switch command {
         case .fetchBootedSimulators,
              .shotdown,
+			 .uninstallApp,
              .activeProcesses,
              .installedApps,
              .fetchAllSimulators:           basicExecute(command)
@@ -112,6 +113,7 @@ extension Shell {
 		case activeProcesses(String)
 		case eraseContents(String) // do not exclusively call this when executing command use the helper function
 		case installedApps(String)
+		case uninstallApp(String, String)
 
 		var path: String {
 			switch self {
@@ -129,6 +131,8 @@ extension Shell {
 				"/usr/bin/xcrun"
             case .openSimulator:
                 ""
+			case .uninstallApp:
+				"/usr/bin/xcrun"
 			}
 		}
 
@@ -154,6 +158,9 @@ extension Shell {
 
             case .openSimulator:
                 []
+
+			case .uninstallApp(let simulatorUUID, let bundleID):
+				["simctl", "uninstall", simulatorUUID, bundleID]
             }
         }
     }

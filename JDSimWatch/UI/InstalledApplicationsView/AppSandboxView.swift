@@ -11,13 +11,19 @@ struct AppSandboxView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AppSandboxViewModel
 
-    init(app: InstalledApplicationsViewModel.AppInfo) {
-        self.viewModel = .init(app: app)
+	init(
+		app: InstalledApplicationsViewModel.AppInfo,
+		simulatorID: String
+	) {
+		self.viewModel = .init(
+			app: app,
+			simulatorID: simulatorID
+		)
     }
 
     var body: some View {
         List {
-            ListRowTapableButton("Application Support") {
+            ListRowTapableButton("Application Sandbox Data") {
                 viewModel.openApplicationSupport()
             }
 
@@ -28,6 +34,10 @@ struct AppSandboxView: View {
             ListRowTapableButton("Remove UserDefaults") {
                 viewModel.removeUserDefaults()
             }
+
+			ListRowTapableButton("Uninstall Application") {
+				viewModel.uninstall()
+			}
         }
         .navigationTitle(viewModel.appName)
         .alert(item: $viewModel.failure) {
@@ -73,13 +83,18 @@ struct ListRowTapableButton: View {
 @Observable
 private final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
+	private let simulatorID: String
 
     var failure: Failure?
 
     var appName: String { app.displayName ?? "" }
 
-    init(app: InstalledApplicationsViewModel.AppInfo) {
+	init(
+		app: InstalledApplicationsViewModel.AppInfo,
+		simulatorID: String
+	) {
         self.app = app
+		self.simulatorID = simulatorID
     }
 
     func openApplicationSupport() {
@@ -112,6 +127,29 @@ private final class AppSandboxViewModel {
             failure = .message("Could not open User Defaults Folder")
         }
     }
+
+	func uninstall() {
+		if app.applicationType == "System" {
+			failure = .message("cannot remove system apps")
+			return
+		}
+
+		guard let bundleIdentifier = app.bundleIdentifier else {
+			failure = .message("No Bundle Identifier")
+			return
+		}
+
+		let shell = EnvironmentValues().shell
+
+		let result = shell.execute(.uninstallApp(simulatorID, bundleIdentifier))
+
+		switch result {
+		case .success:
+			break
+		case .failure(let error):
+			failure = .message("Could not uninstall app: \(error)")
+		}
+	}
 
     func removeUserDefaults() {
         guard let folderPath = app.dataContainer else {
