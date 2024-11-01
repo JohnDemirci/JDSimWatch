@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AppSandboxView: View {
     @Environment(\.dismiss) private var dismiss
-    private let viewModel: AppSandboxViewModel
+    @State private var viewModel: AppSandboxViewModel
 
     init(app: InstalledApplicationsViewModel.AppInfo) {
         self.viewModel = .init(app: app)
@@ -30,6 +30,9 @@ struct AppSandboxView: View {
             }
         }
         .navigationTitle(viewModel.appName)
+        .alert(item: $viewModel.failure) {
+            Alert(title: Text($0.description))
+        }
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(
@@ -67,8 +70,11 @@ struct ListRowTapableButton: View {
     }
 }
 
+@Observable
 private final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
+
+    var failure: Failure?
 
     var appName: String { app.displayName ?? "" }
 
@@ -77,24 +83,45 @@ private final class AppSandboxViewModel {
     }
 
     func openApplicationSupport() {
-        guard let folderPath = app.dataContainer else { return }
+        guard let folderPath = app.dataContainer else {
+            failure = .message("No Application Support Folder")
+            return
+        }
         let expandedPath = NSString(string: folderPath).expandingTildeInPath
         let fileURL = URL(fileURLWithPath: expandedPath)
-        NSWorkspace.shared.open(fileURL)
+        if !NSWorkspace.shared.open(fileURL) {
+            failure = .message("Could not open Application Support Folder")
+        }
     }
 
     func openUserDefaults() {
-        guard let folderPath = app.dataContainer else { return }
-        guard let bundleIdentifier = app.bundleIdentifier else { return }
+        guard let folderPath = app.dataContainer else {
+            failure = .message("No User Defaults Folder")
+            return
+        }
+
+        guard let bundleIdentifier = app.bundleIdentifier else {
+            failure = .message("No Bundle Identifier")
+            return
+        }
         let string = "\(bundleIdentifier).plist"
         let newPath = "\(folderPath)/Library/Preferences/\(string)"
         let fileURL = URL(fileURLWithPath: newPath)
-        NSWorkspace.shared.open(fileURL)
+
+        if !NSWorkspace.shared.open(fileURL) {
+            failure = .message("Could not open User Defaults Folder")
+        }
     }
 
     func removeUserDefaults() {
-        guard let folderPath = app.dataContainer else { return }
-        guard let bundleIdentifier = app.bundleIdentifier else { return }
+        guard let folderPath = app.dataContainer else {
+            failure = .message("No User Defaults Folder")
+            return
+        }
+        guard let bundleIdentifier = app.bundleIdentifier else {
+            failure = .message("No Bundle Identifier")
+            return
+        }
         let userDefaultsExtension = "\(bundleIdentifier).plist"
         let newPath = "\(folderPath)/Library/Preferences/\(userDefaultsExtension)"
         let fileURL = URL(fileURLWithPath: newPath)
@@ -102,8 +129,7 @@ private final class AppSandboxViewModel {
         do {
             try FileManager.default.removeItem(at: fileURL)
         } catch {
-            // TODO: - handle error
-            print("Failed to remove file: \(error.localizedDescription)")
+            failure = .message("Could not remove User Defaults File")
         }
     }
 }

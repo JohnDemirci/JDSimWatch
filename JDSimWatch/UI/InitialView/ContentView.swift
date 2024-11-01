@@ -60,7 +60,11 @@ private struct SidebarButton: View {
             Button("Shutdown") {
                 manager.shutdownSimulator(simulator)
             }
+            .alert(item: $manager.failure) { failure in
+                Alert(title: Text(failure.description))
+            }
         }
+
     }
 }
 

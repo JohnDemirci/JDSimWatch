@@ -28,10 +28,14 @@ struct SimulatorDetailView: View {
 
 private struct GoToDocumentsView: View {
 	let simulator: Simulator
+    @State private var failure: Failure?
 
 	var body: some View {
         ListRowTapableButton("Documents") {
             goToDocuments()
+        }
+        .alert(item: $failure) {
+            Alert(title: Text($0.description))
         }
 	}
 }
@@ -41,7 +45,10 @@ private extension GoToDocumentsView {
         let folderPath = "~/Library/Developer/CoreSimulator/Devices/\(simulator.id)/data/Documents/"
         let expandedPath = NSString(string: folderPath).expandingTildeInPath
         let fileURL = URL(fileURLWithPath: expandedPath)
-        NSWorkspace.shared.open(fileURL)
+
+        if !NSWorkspace.shared.open(fileURL) {
+            failure = .message("Could not open \(fileURL)")
+        }
     }
 }
 
@@ -64,10 +71,14 @@ private struct ProcessesNavigationLink: View {
 private struct EraseContentsView: View {
 	@Environment(\.shell) private var shell
 	let simulator: Simulator
+    @State private var failure: Failure?
 
 	var body: some View {
         ListRowTapableButton("Erase Contents") {
             eraseSimulator()
+        }
+        .alert(item: $failure) {
+            Alert(title: Text($0.description))
         }
 	}
 }
@@ -78,10 +89,9 @@ extension EraseContentsView {
 
         switch result {
         case .success:
-            // TODO: - handle
             break
         case .failure(let error):
-            dump(error.localizedDescription)
+            self.failure = .message(error.localizedDescription)
         }
 	}
 }

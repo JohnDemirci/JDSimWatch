@@ -26,6 +26,9 @@ struct InstalledApplicationsView: View {
 		.onAppear {
 			viewModel.fetchInstalledApplications(simulator.id)
 		}
+        .alert(item: $viewModel.failure) {
+            Alert(title: Text($0.description))
+        }
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(

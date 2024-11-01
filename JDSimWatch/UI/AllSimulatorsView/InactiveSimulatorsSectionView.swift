@@ -27,6 +27,7 @@ struct InactiveSimulatorsSectionContentView: View {
     @Environment(\.shell) private var shell
     let version: InactiveSimulatorParser.OSVersion
     @Bindable var manager: SimulatorManager
+    @State private var failure: Failure?
 
     var body: some View {
         ForEach(version.devices) { device in
@@ -37,7 +38,7 @@ struct InactiveSimulatorsSectionContentView: View {
                         case .success:
                             manager.fetchSimulators()
                         case .failure(let error):
-                            // TODO: - handle errors
+                            failure = .message(error.localizedDescription)
                             break
                         }
                     },
@@ -45,6 +46,9 @@ struct InactiveSimulatorsSectionContentView: View {
                         Image(systemName: "play")
                     }
                 )
+            }
+            .alert(item: $failure) {
+                Alert(title: Text($0.description))
             }
         }
     }

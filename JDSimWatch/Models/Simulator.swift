@@ -20,6 +20,8 @@ final class SimulatorManager {
     var simulators: [Simulator] = []
     var selectedSimulator: Simulator? = nil
 
+    var failure: Failure?
+
     init() {
         registerObservers()
     }
@@ -60,22 +62,28 @@ extension SimulatorManager {
 
         let result = shell.execute(.fetchBootedSimulators)
 
-        guard
-            case .success(let output) = result,
-            let output
-        else { return }
+        switch result {
+        case .success(let maybeOutput):
+            guard let output = maybeOutput else {
+                self.failure = .message("No simulators found.")
+                return
+            }
 
-        let list = output
-            .split(separator: "\n")
-            .map { String($0) }
-            .compactMap { parseDeviceInfo($0) }
+            let list = output
+                .split(separator: "\n")
+                .map { String($0) }
+                .compactMap { parseDeviceInfo($0) }
 
-        self.simulators = list
+            self.simulators = list
 
-        if !self.simulators.isEmpty {
-            self.selectedSimulator = self.simulators.first!
-        } else {
-            self.selectedSimulator = nil
+            if !self.simulators.isEmpty {
+                self.selectedSimulator = self.simulators.first!
+            } else {
+                self.selectedSimulator = nil
+            }
+
+        case .failure(let error):
+            self.failure = .message(error.localizedDescription)
         }
     }
 
@@ -92,7 +100,7 @@ extension SimulatorManager {
                 selectedSimulator = simulators.first
             }
         case .failure(let error):
-            dump(error)
+            self.failure = .message(error.localizedDescription)
         }
     }
 }
@@ -111,7 +119,9 @@ private extension SimulatorManager {
                 name: String(input[nameRange])
                     .trimmingCharacters(in: .whitespacesAndNewlines)
             )
+        } else {
+            self.failure = .message("Could not parse device info from \(input)")
+            return nil
         }
-        return nil
     }
 }
