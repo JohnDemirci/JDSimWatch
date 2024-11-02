@@ -5,11 +5,13 @@
 //  Created by John Demirci on 10/29/24.
 //
 
+import Combine
 import SwiftUI
 
 struct AppSandboxView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var viewModel: AppSandboxViewModel
+	@State private var success: Success?
 
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
@@ -39,10 +41,22 @@ struct AppSandboxView: View {
 				viewModel.uninstall()
 			}
         }
+		.onReceive(viewModel.dismissPublisher) {
+			success = .message("Successfully uninstalled application", { dismiss() })
+		}
         .navigationTitle(viewModel.appName)
         .alert(item: $viewModel.failure) {
             Alert(title: Text($0.description))
         }
+		.alert(item: $success) {
+			Alert(
+				title: Text($0.description),
+				dismissButton: Alert.Button.default(
+					Text("OK"),
+					action: $0.action
+				)
+			)
+		}
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(
@@ -67,9 +81,7 @@ struct ListRowTapableButton: View {
 
     var body: some View {
         Button(
-            action: {
-                action()
-            },
+            action: { action() },
             label: {
                 Text(title)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
@@ -86,6 +98,9 @@ private final class AppSandboxViewModel {
 	private let simulatorID: String
 
     var failure: Failure?
+	private let dismiss = PassthroughSubject<Void, Never>()
+
+	var dismissPublisher: AnyPublisher<Void, Never> { dismiss.eraseToAnyPublisher() }
 
     var appName: String { app.displayName ?? "" }
 
@@ -145,7 +160,7 @@ private final class AppSandboxViewModel {
 
 		switch result {
 		case .success:
-			break
+			dismiss.send(())
 		case .failure(let error):
 			failure = .message("Could not uninstall app: \(error)")
 		}

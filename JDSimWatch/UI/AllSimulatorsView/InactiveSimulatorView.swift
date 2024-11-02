@@ -41,6 +41,7 @@ struct InacvtiveSimulatorsView: View {
                     return
                 }
 
+				dump(output)
                 parser.parseDeviceInfo(output)
                 
             case .failure(let error):

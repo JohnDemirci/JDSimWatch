@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		583CB66F2CD59533009FC2E5 /* Success.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583CB66E2CD5952C009FC2E5 /* Success.swift */; };
 		583EAB3A2CD48114007F4AB6 /* Failure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EAB392CD48111007F4AB6 /* Failure.swift */; };
 		585B515B2C7FE28A00F8FBE5 /* RunningProcessesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */; };
 		58697EA82C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		583CB66E2CD5952C009FC2E5 /* Success.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Success.swift; sourceTree = "<group>"; };
 		583EAB392CD48111007F4AB6 /* Failure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Failure.swift; sourceTree = "<group>"; };
 		585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningProcessesView.swift; sourceTree = "<group>"; };
 		58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabeledContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 		587A050E2C7CEA2200D32C10 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				583CB66E2CD5952C009FC2E5 /* Success.swift */,
 				583EAB392CD48111007F4AB6 /* Failure.swift */,
 				587A050D2C7CEA2200D32C10 /* Shell.swift */,
 			);
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				585B515B2C7FE28A00F8FBE5 /* RunningProcessesView.swift in Sources */,
+				583CB66F2CD59533009FC2E5 /* Success.swift in Sources */,
 				587A051F2C7CEA2200D32C10 /* SimulatorDetailView.swift in Sources */,
 				587A05192C7CEA2200D32C10 /* Shell.swift in Sources */,
 				587A05182C7CEA2200D32C10 /* Simulator.swift in Sources */,
