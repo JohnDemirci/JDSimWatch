@@ -25,7 +25,7 @@ struct Shell {
 
     private func basicExecute(_ command: Shell.Command) -> Result<String?, Error> {
         let process = Process()
-        process.executableURL = URL(fileURLWithPath: command.path)
+        process.executableURL = URL(fileURLWithPath: command.path.rawValue)
         process.arguments = command.arguments
 
         let pipe = Pipe()
@@ -52,11 +52,11 @@ struct Shell {
 		let eraseProcess = Process()
 
 		let shutDownCommand = Shell.Command.shotdown(uuid)
-		shutdownProcess.executableURL = URL(fileURLWithPath: shutDownCommand.path)
+        shutdownProcess.executableURL = URL(fileURLWithPath: shutDownCommand.path.rawValue)
 		shutdownProcess.arguments = shutDownCommand.arguments
 
 		let eraseCommand = Shell.Command.eraseContents(uuid)
-		eraseProcess.executableURL = URL(fileURLWithPath: eraseCommand.path)
+        eraseProcess.executableURL = URL(fileURLWithPath: eraseCommand.path.rawValue)
 		eraseProcess.arguments = eraseCommand.arguments
 
 		do {
@@ -115,24 +115,16 @@ extension Shell {
 		case installedApps(String)
 		case uninstallApp(String, String)
 
-		var path: String {
+		var path: Path {
 			switch self {
-	 		case .fetchBootedSimulators:
-				"/bin/bash"
-			case .fetchAllSimulators:
-				"/bin/bash"
-			case .shotdown:
-				"/usr/bin/xcrun"
-			case .activeProcesses:
-				"/bin/bash"
-			case .eraseContents:
-				"/usr/bin/xcrun"
-			case .installedApps:
-				"/usr/bin/xcrun"
+	 		case .fetchBootedSimulators, .fetchAllSimulators, .activeProcesses:
+                .bash
+
+            case .shotdown, .installedApps, .eraseContents, .uninstallApp:
+                .xcrun
+
             case .openSimulator:
-                ""
-			case .uninstallApp:
-				"/usr/bin/xcrun"
+                .none
 			}
 		}
 
@@ -163,6 +155,15 @@ extension Shell {
 				["simctl", "uninstall", simulatorUUID, bundleID]
             }
         }
+    }
+}
+
+extension Shell.Command {
+    enum Path: String {
+        case bash = "/bin/bash"
+        case xcrun = "/usr/bin/xcrun"
+        case open = "/usr/bin/open"
+        case none
     }
 }
 

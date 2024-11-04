@@ -5,7 +5,7 @@
 //  Created by John Demirci on 10/31/24.
 //
 
-enum Failure: Error, CustomStringConvertible, Identifiable {
+enum Failure: Error, CustomStringConvertible, Identifiable, Hashable {
     case message(String)
 
     var description: String {

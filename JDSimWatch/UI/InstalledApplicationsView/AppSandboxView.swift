@@ -10,8 +10,9 @@ import SwiftUI
 
 struct AppSandboxView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var viewModel: AppSandboxViewModel
+    @Bindable private var viewModel: AppSandboxViewModel
 	@State private var success: Success?
+    @State private var showAlert = false
 
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
@@ -44,19 +45,25 @@ struct AppSandboxView: View {
 		.onReceive(viewModel.dismissPublisher) {
 			success = .message("Successfully uninstalled application", { dismiss() })
 		}
-        .navigationTitle(viewModel.appName)
-        .alert(item: $viewModel.failure) {
-            Alert(title: Text($0.description))
+        .onReceive(viewModel.alertPublisher) { _ in
+            showAlert = true
         }
-		.alert(item: $success) {
-			Alert(
-				title: Text($0.description),
-				dismissButton: Alert.Button.default(
-					Text("OK"),
-					action: $0.action
-				)
-			)
-		}
+        .alert(viewModel.failure?.description ?? "", isPresented: $showAlert) {
+            Button("ok") {
+                viewModel.failure = nil
+                showAlert = false
+            }
+        }
+        .alert(item: $success) {
+            Alert(
+                title: Text($0.description),
+                dismissButton: Alert.Button.default(
+                    Text("OK"),
+                    action: $0.action
+                )
+            )
+        }
+        .navigationTitle(viewModel.appName)
         .toolbar {
             ToolbarItem(placement: .navigation) {
                 Button(
@@ -93,14 +100,23 @@ struct ListRowTapableButton: View {
 }
 
 @Observable
-private final class AppSandboxViewModel {
+final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
 	private let simulatorID: String
 
-    var failure: Failure?
+    var failure: Failure? {
+        didSet {
+            if let failure {
+                alertSubject.send(failure)
+            }
+        }
+    }
+
 	private let dismiss = PassthroughSubject<Void, Never>()
+    private let alertSubject = PassthroughSubject<Failure, Never>()
 
 	var dismissPublisher: AnyPublisher<Void, Never> { dismiss.eraseToAnyPublisher() }
+    var alertPublisher: AnyPublisher<Failure, Never> { alertSubject.eraseToAnyPublisher() }
 
     var appName: String { app.displayName ?? "" }
 

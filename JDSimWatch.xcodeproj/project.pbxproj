@@ -3,52 +3,28 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		583CB66F2CD59533009FC2E5 /* Success.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583CB66E2CD5952C009FC2E5 /* Success.swift */; };
-		583EAB3A2CD48114007F4AB6 /* Failure.swift in Sources */ = {isa = PBXBuildFile; fileRef = 583EAB392CD48111007F4AB6 /* Failure.swift */; };
-		585B515B2C7FE28A00F8FBE5 /* RunningProcessesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */; };
-		58697EA82C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */; };
-		587A05012C7CE9CA00D32C10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587A05002C7CE9CA00D32C10 /* Assets.xcassets */; };
-		587A05042C7CE9CA00D32C10 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587A05032C7CE9CA00D32C10 /* Preview Assets.xcassets */; };
-		587A05182C7CEA2200D32C10 /* Simulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A050B2C7CEA2200D32C10 /* Simulator.swift */; };
-		587A05192C7CEA2200D32C10 /* Shell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A050D2C7CEA2200D32C10 /* Shell.swift */; };
-		587A051A2C7CEA2200D32C10 /* SimuWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A050F2C7CEA2200D32C10 /* SimuWatchApp.swift */; };
-		587A051B2C7CEA2200D32C10 /* InactiveSimulatorParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05102C7CEA2200D32C10 /* InactiveSimulatorParser.swift */; };
-		587A051C2C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05112C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift */; };
-		587A051D2C7CEA2200D32C10 /* InactiveSimulatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05122C7CEA2200D32C10 /* InactiveSimulatorView.swift */; };
-		587A051E2C7CEA2200D32C10 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05142C7CEA2200D32C10 /* ContentView.swift */; };
-		587A051F2C7CEA2200D32C10 /* SimulatorDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587A05152C7CEA2200D32C10 /* SimulatorDetailView.swift */; };
-		588E49E52CD14C090025F0AF /* OptionalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588E49E42CD14C050025F0AF /* OptionalView.swift */; };
-		588E49E72CD15B430025F0AF /* AppSandboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588E49E62CD15B380025F0AF /* AppSandboxView.swift */; };
-		58C75CBA2C8FD87500990DBB /* InstalledApplicationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */; };
-		58F1F2D72C8FC4BF00ED95FB /* InstalledApplicationsview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */; };
-/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		587E69542CD959180080585C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 587A04F12C7CE9C900D32C10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 587A04F82C7CE9C900D32C10;
+			remoteInfo = JDSimWatch;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		583CB66E2CD5952C009FC2E5 /* Success.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Success.swift; sourceTree = "<group>"; };
-		583EAB392CD48111007F4AB6 /* Failure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Failure.swift; sourceTree = "<group>"; };
-		585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningProcessesView.swift; sourceTree = "<group>"; };
-		58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalLabeledContentView.swift; sourceTree = "<group>"; };
 		587A04F92C7CE9C900D32C10 /* JDSimWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JDSimWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		587A05002C7CE9CA00D32C10 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		587A05032C7CE9CA00D32C10 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		587A05052C7CE9CA00D32C10 /* JDSimWatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JDSimWatch.entitlements; sourceTree = "<group>"; };
-		587A050B2C7CEA2200D32C10 /* Simulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Simulator.swift; sourceTree = "<group>"; };
-		587A050D2C7CEA2200D32C10 /* Shell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shell.swift; sourceTree = "<group>"; };
-		587A050F2C7CEA2200D32C10 /* SimuWatchApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimuWatchApp.swift; sourceTree = "<group>"; };
-		587A05102C7CEA2200D32C10 /* InactiveSimulatorParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveSimulatorParser.swift; sourceTree = "<group>"; };
-		587A05112C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveSimulatorsSectionView.swift; sourceTree = "<group>"; };
-		587A05122C7CEA2200D32C10 /* InactiveSimulatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InactiveSimulatorView.swift; sourceTree = "<group>"; };
-		587A05142C7CEA2200D32C10 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		587A05152C7CEA2200D32C10 /* SimulatorDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimulatorDetailView.swift; sourceTree = "<group>"; };
-		588E49E42CD14C050025F0AF /* OptionalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalView.swift; sourceTree = "<group>"; };
-		588E49E62CD15B380025F0AF /* AppSandboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSandboxView.swift; sourceTree = "<group>"; };
-		58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledApplicationViewModel.swift; sourceTree = "<group>"; };
-		58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstalledApplicationsview.swift; sourceTree = "<group>"; };
+		587E69502CD959180080585C /* JDSimWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JDSimWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		587E69512CD959180080585C /* JDSimWatchTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = JDSimWatchTests; sourceTree = "<group>"; };
+		587E69782CD9592D0080585C /* JDSimWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = JDSimWatch; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		587A04F62C7CE9C900D32C10 /* Frameworks */ = {
@@ -58,38 +34,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		587E694D2CD959180080585C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		585B51592C7FE27800F8FBE5 /* RunningProcessesView */ = {
-			isa = PBXGroup;
-			children = (
-				585B515A2C7FE28A00F8FBE5 /* RunningProcessesView.swift */,
-			);
-			path = RunningProcessesView;
-			sourceTree = "<group>";
-		};
-		58697EA52C8EA3B50067BCA8 /* SimulatorDetailsView */ = {
-			isa = PBXGroup;
-			children = (
-				58697EA62C8EA3E70067BCA8 /* CommonViews */,
-				587A05152C7CEA2200D32C10 /* SimulatorDetailView.swift */,
-			);
-			path = SimulatorDetailsView;
-			sourceTree = "<group>";
-		};
-		58697EA62C8EA3E70067BCA8 /* CommonViews */ = {
-			isa = PBXGroup;
-			children = (
-				58697EA72C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift */,
-			);
-			path = CommonViews;
-			sourceTree = "<group>";
-		};
 		587A04F02C7CE9C900D32C10 = {
 			isa = PBXGroup;
 			children = (
-				587A04FB2C7CE9C900D32C10 /* JDSimWatch */,
+				587E69782CD9592D0080585C /* JDSimWatch */,
+				587E69512CD959180080585C /* JDSimWatchTests */,
 				587A04FA2C7CE9C900D32C10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,97 +57,9 @@
 			isa = PBXGroup;
 			children = (
 				587A04F92C7CE9C900D32C10 /* JDSimWatch.app */,
+				587E69502CD959180080585C /* JDSimWatchTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		587A04FB2C7CE9C900D32C10 /* JDSimWatch */ = {
-			isa = PBXGroup;
-			children = (
-				587A05002C7CE9CA00D32C10 /* Assets.xcassets */,
-				587A05052C7CE9CA00D32C10 /* JDSimWatch.entitlements */,
-				587A050C2C7CEA2200D32C10 /* Models */,
-				587A05022C7CE9CA00D32C10 /* Preview Content */,
-				587A050F2C7CEA2200D32C10 /* SimuWatchApp.swift */,
-				587A05172C7CEA2200D32C10 /* UI */,
-				587A050E2C7CEA2200D32C10 /* Utility */,
-			);
-			path = JDSimWatch;
-			sourceTree = "<group>";
-		};
-		587A05022C7CE9CA00D32C10 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				587A05032C7CE9CA00D32C10 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		587A050C2C7CEA2200D32C10 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				587A050B2C7CEA2200D32C10 /* Simulator.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		587A050E2C7CEA2200D32C10 /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				583CB66E2CD5952C009FC2E5 /* Success.swift */,
-				583EAB392CD48111007F4AB6 /* Failure.swift */,
-				587A050D2C7CEA2200D32C10 /* Shell.swift */,
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
-		587A05132C7CEA2200D32C10 /* AllSimulatorsView */ = {
-			isa = PBXGroup;
-			children = (
-				587A05102C7CEA2200D32C10 /* InactiveSimulatorParser.swift */,
-				587A05112C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift */,
-				587A05122C7CEA2200D32C10 /* InactiveSimulatorView.swift */,
-			);
-			path = AllSimulatorsView;
-			sourceTree = "<group>";
-		};
-		587A05172C7CEA2200D32C10 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				588E49E32CD14BEF0025F0AF /* ReusableViews */,
-				588E49DF2CD149580025F0AF /* InitialView */,
-				58F1F2D52C8FC49800ED95FB /* InstalledApplicationsView */,
-				58697EA52C8EA3B50067BCA8 /* SimulatorDetailsView */,
-				585B51592C7FE27800F8FBE5 /* RunningProcessesView */,
-				587A05132C7CEA2200D32C10 /* AllSimulatorsView */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		588E49DF2CD149580025F0AF /* InitialView */ = {
-			isa = PBXGroup;
-			children = (
-				587A05142C7CEA2200D32C10 /* ContentView.swift */,
-			);
-			path = InitialView;
-			sourceTree = "<group>";
-		};
-		588E49E32CD14BEF0025F0AF /* ReusableViews */ = {
-			isa = PBXGroup;
-			children = (
-				588E49E42CD14C050025F0AF /* OptionalView.swift */,
-			);
-			path = ReusableViews;
-			sourceTree = "<group>";
-		};
-		58F1F2D52C8FC49800ED95FB /* InstalledApplicationsView */ = {
-			isa = PBXGroup;
-			children = (
-				588E49E62CD15B380025F0AF /* AppSandboxView.swift */,
-				58F1F2D62C8FC4BF00ED95FB /* InstalledApplicationsview.swift */,
-				58C75CB92C8FD87500990DBB /* InstalledApplicationViewModel.swift */,
-			);
-			path = InstalledApplicationsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,10 +77,36 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				587E69782CD9592D0080585C /* JDSimWatch */,
+			);
 			name = JDSimWatch;
 			productName = JDSimWatch;
 			productReference = 587A04F92C7CE9C900D32C10 /* JDSimWatch.app */;
 			productType = "com.apple.product-type.application";
+		};
+		587E694F2CD959180080585C /* JDSimWatchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 587E69582CD959180080585C /* Build configuration list for PBXNativeTarget "JDSimWatchTests" */;
+			buildPhases = (
+				587E694C2CD959180080585C /* Sources */,
+				587E694D2CD959180080585C /* Frameworks */,
+				587E694E2CD959180080585C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				587E69552CD959180080585C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				587E69512CD959180080585C /* JDSimWatchTests */,
+			);
+			name = JDSimWatchTests;
+			packageProductDependencies = (
+			);
+			productName = JDSimWatchTests;
+			productReference = 587E69502CD959180080585C /* JDSimWatchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -218,11 +115,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
+				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					587A04F82C7CE9C900D32C10 = {
 						CreatedOnToolsVersion = 15.4;
+					};
+					587E694F2CD959180080585C = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 587A04F82C7CE9C900D32C10;
 					};
 				};
 			};
@@ -240,6 +141,7 @@
 			projectRoot = "";
 			targets = (
 				587A04F82C7CE9C900D32C10 /* JDSimWatch */,
+				587E694F2CD959180080585C /* JDSimWatchTests */,
 			);
 		};
 /* End PBXProject section */
@@ -249,8 +151,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				587A05042C7CE9CA00D32C10 /* Preview Assets.xcassets in Resources */,
-				587A05012C7CE9CA00D32C10 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		587E694E2CD959180080585C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,26 +168,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				585B515B2C7FE28A00F8FBE5 /* RunningProcessesView.swift in Sources */,
-				583CB66F2CD59533009FC2E5 /* Success.swift in Sources */,
-				587A051F2C7CEA2200D32C10 /* SimulatorDetailView.swift in Sources */,
-				587A05192C7CEA2200D32C10 /* Shell.swift in Sources */,
-				587A05182C7CEA2200D32C10 /* Simulator.swift in Sources */,
-				58697EA82C8EA3FB0067BCA8 /* VerticalLabeledContentView.swift in Sources */,
-				587A051D2C7CEA2200D32C10 /* InactiveSimulatorView.swift in Sources */,
-				588E49E72CD15B430025F0AF /* AppSandboxView.swift in Sources */,
-				587A051E2C7CEA2200D32C10 /* ContentView.swift in Sources */,
-				587A051B2C7CEA2200D32C10 /* InactiveSimulatorParser.swift in Sources */,
-				587A051A2C7CEA2200D32C10 /* SimuWatchApp.swift in Sources */,
-				583EAB3A2CD48114007F4AB6 /* Failure.swift in Sources */,
-				587A051C2C7CEA2200D32C10 /* InactiveSimulatorsSectionView.swift in Sources */,
-				58C75CBA2C8FD87500990DBB /* InstalledApplicationViewModel.swift in Sources */,
-				58F1F2D72C8FC4BF00ED95FB /* InstalledApplicationsview.swift in Sources */,
-				588E49E52CD14C090025F0AF /* OptionalView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		587E694C2CD959180080585C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		587E69552CD959180080585C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 587A04F82C7CE9C900D32C10 /* JDSimWatch */;
+			targetProxy = 587E69542CD959180080585C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		587A05062C7CE9CA00D32C10 /* Debug */ = {
@@ -455,6 +361,42 @@
 			};
 			name = Release;
 		};
+		587E69562CD959180080585C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2N277QXTNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demirci.JDSimWatchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JDSimWatch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JDSimWatch";
+			};
+			name = Debug;
+		};
+		587E69572CD959180080585C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2N277QXTNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demirci.JDSimWatchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JDSimWatch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JDSimWatch";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -472,6 +414,15 @@
 			buildConfigurations = (
 				587A05092C7CE9CA00D32C10 /* Debug */,
 				587A050A2C7CE9CA00D32C10 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		587E69582CD959180080585C /* Build configuration list for PBXNativeTarget "JDSimWatchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				587E69562CD959180080585C /* Debug */,
+				587E69572CD959180080585C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
