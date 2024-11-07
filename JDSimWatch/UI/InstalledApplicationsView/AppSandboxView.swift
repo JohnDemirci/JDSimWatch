@@ -16,11 +16,13 @@ struct AppSandboxView: View {
 
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
-		simulatorID: String
+		simulatorID: String,
+        client: Client
 	) {
 		self.viewModel = .init(
 			app: app,
-			simulatorID: simulatorID
+			simulatorID: simulatorID,
+            client: client
 		)
     }
 
@@ -103,6 +105,7 @@ struct ListRowTapableButton: View {
 final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
 	private let simulatorID: String
+    private let client: Client
 
     var failure: Failure? {
         didSet {
@@ -122,10 +125,12 @@ final class AppSandboxViewModel {
 
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
-		simulatorID: String
+		simulatorID: String,
+        client: Client = .live
 	) {
         self.app = app
 		self.simulatorID = simulatorID
+        self.client = client
     }
 
     func openApplicationSupport() {
@@ -170,16 +175,13 @@ final class AppSandboxViewModel {
 			return
 		}
 
-		let shell = EnvironmentValues().shell
+        switch client.uninstallApp(bundleIdentifier, at: simulatorID) {
+        case .success:
+            dismiss.send(())
 
-		let result = shell.execute(.uninstallApp(simulatorID, bundleIdentifier))
-
-		switch result {
-		case .success:
-			dismiss.send(())
-		case .failure(let error):
-			failure = .message("Could not uninstall app: \(error)")
-		}
+        case .failure(let error):
+            failure = .message("Could not uninstall app: \(error)")
+        }
 	}
 
     func removeUserDefaults() {

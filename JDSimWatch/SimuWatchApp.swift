@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct SimuWatchApp: App {
     @State private var manager = SimulatorManager()
+    private let client: Client = .live
     var body: some Scene {
         WindowGroup {
             ContentView(manager: manager)

@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.shell) private var shell
-
     @Bindable var manager: SimulatorManager
 
     var body: some View {
@@ -43,7 +41,7 @@ struct ContentView: View {
 }
 
 private struct SidebarButton: View {
-    let simulator: Simulator
+    let simulator: Simulator_Legacy
     @Bindable var manager: SimulatorManager
 
     var body: some View {
