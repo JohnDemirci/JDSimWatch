@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Shell {
+    static let shared = Shell()
+
     func execute(_ command: Shell.Command) -> Result<String?, Error> {
         switch command {
         case .fetchBootedSimulators,
@@ -164,15 +166,5 @@ extension Shell.Command {
         case xcrun = "/usr/bin/xcrun"
         case open = "/usr/bin/open"
         case none
-    }
-}
-
-private struct ShellEnvironmentKey: EnvironmentKey {
-    static let defaultValue: Shell = .init()
-}
-
-extension EnvironmentValues {
-    var shell: Shell {
-        get { self[ShellEnvironmentKey.self] }
     }
 }

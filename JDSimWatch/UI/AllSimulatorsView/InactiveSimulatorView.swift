@@ -9,15 +9,14 @@ import SwiftUI
 
 struct InacvtiveSimulatorsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.shell) private var shell
-    @State private var parser = InactiveSimulatorParser()
     @Bindable var manager: SimulatorManager
     @State private var failure: Failure?
+    @State var osVersions: [InactiveSimulatorParser.OSVersion] = []
 
     var body: some View {
         List {
             InactiveSimulatorsSectionView(
-                osVersions: parser.osVersionsAndDevices,
+                osVersions: osVersions,
                 manager: manager
             )
         }
@@ -32,20 +31,11 @@ struct InacvtiveSimulatorsView: View {
             }
         }
         .onAppear {
-            let result = shell.execute(.fetchAllSimulators)
-
-            switch result {
-            case .success(let maybeOutput):
-                guard let output = maybeOutput else {
-                    failure = .message("No simulators found")
-                    return
-                }
-
-				dump(output)
-                parser.parseDeviceInfo(output)
-                
+            switch manager.client.fetchAllSimulators_Legacy() {
+            case .success(let osVersions):
+                self.osVersions = osVersions
             case .failure(let error):
-                self.failure = .message(error.localizedDescription)
+                failure = .message(error.localizedDescription)
             }
         }
         .alert(item: $manager.failure) {

@@ -1,55 +1,38 @@
 //
-//  InstalledApplicationViewModel.swift
+//  InstalledApplications.swift
 //  JDSimWatch
 //
-//  Created by John Demirci on 9/9/24.
+//  Created by John Demirci on 11/7/24.
 //
 
 import Foundation
-import SwiftUI
 
-@Observable
-final class InstalledApplicationsViewModel {
-    var installedApplications: [AppInfo] = []
-    var failure: Failure?
-    let client: Client
+extension Client {
+    static func handleInstalledApplications(
+        _ simulatorID: String
+    ) -> Result<[InstalledApplicationsViewModel.AppInfo], Error> {
+        switch Shell.shared.execute(.installedApps(simulatorID)) {
+        case .success(let maybeOutput):
+            guard let output = maybeOutput else {
+                return .failure(Failure.message("no output received from installedApps"))
+            }
 
-    init(client: Client = .live) {
-        self.client = client
-    }
-
-	func fetchInstalledApplications(_ simulatorID: String) {
-        switch client.installedApps(simulator: simulatorID) {
-        case .success(let infos):
-            self.installedApplications = infos
-
+            return .success(parseAppInfo(from: output))
         case .failure(let error):
-            failure = .message(error.localizedDescription)
+            return .failure(error)
         }
-	}
-}
-
-extension InstalledApplicationsViewModel {
-    struct AppInfo: Hashable {
-        var applicationType: String?
-        var bundle: String?
-        var displayName: String?
-        var bundleIdentifier: String?
-        var bundleName: String?
-        var bundleVersion: String?
-        var dataContainer: String?
-        var path: String?
     }
 
-
-    func parseAppInfo(from input: String) -> [AppInfo] {
+    private static func parseAppInfo(
+        from input: String
+    ) -> [InstalledApplicationsViewModel.AppInfo] {
         let newArray = input.components(separatedBy: "\n        ")
-        var appInfos: [AppInfo] = []
+        var appInfos: [InstalledApplicationsViewModel.AppInfo] = []
 
         for var index in 0..<newArray.count {
             let xxx = newArray[index]
             if xxx.localizedStandardContains("ApplicationType") {
-                var appInfo = AppInfo()
+                var appInfo = InstalledApplicationsViewModel.AppInfo()
 
                 appInfo.bundleIdentifier = newArray[index - 1]
                     .trimmingCharacters(in: .whitespacesAndNewlines)
@@ -147,5 +130,5 @@ extension InstalledApplicationsViewModel {
         }
 
         return appInfos
-	}
+    }
 }

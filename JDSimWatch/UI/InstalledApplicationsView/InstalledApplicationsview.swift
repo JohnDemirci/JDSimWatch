@@ -9,11 +9,17 @@ import Foundation
 import SwiftUI
 
 struct InstalledApplicationsView: View {
-	@Environment(\.shell) private var shell
     @Environment(\.dismiss) private var dismiss
+	@Bindable private var viewModel = InstalledApplicationsViewModel()
+	let simulator: Simulator_Legacy
 
-	@State private var viewModel = InstalledApplicationsViewModel()
-	let simulator: Simulator
+    init(
+        simulator: Simulator_Legacy,
+        client: Client
+    ) {
+        self.viewModel = .init(client: client)
+        self.simulator = simulator
+    }
 
 	var body: some View {
 		List {
@@ -21,7 +27,8 @@ struct InstalledApplicationsView: View {
                 NavigationLink(apps.displayName ?? "N/A") {
 					AppSandboxView(
 						app: apps,
-						simulatorID: simulator.id
+						simulatorID: simulator.id,
+                        client: viewModel.client
 					)
                 }
             }

@@ -9,14 +9,15 @@ import SwiftUI
 
 struct RunningProcessesView: View {
 	@Environment(\.dismiss) private var dismiss
-	@Environment(\.shell) private var shell
+	@Bindable private var viewModel = RunningProcessesViewModel()
+	private let simulator: Simulator_Legacy
 
-	@State private var viewModel = RunningProcessesViewModel()
-
-	private let simulator: Simulator
-
-	init(simulator: Simulator) {
+	init(
+        simulator: Simulator_Legacy,
+        client: Client
+    ) {
 		self.simulator = simulator
+        self.viewModel = .init(client: client)
 	}
 
 	var body: some View {
@@ -63,6 +64,11 @@ final class RunningProcessesViewModel {
 	private var processes: [ProcessInfo] = []
 	var filter: String = ""
     var failure: Failure?
+    let client: Client
+
+    init(client: Client = .live) {
+        self.client = client
+    }
 
 	var filteredProcesses: [ProcessInfo] {
 		if filter.isEmpty { return processes }
@@ -73,36 +79,12 @@ final class RunningProcessesViewModel {
 	}
 
 	func fetchRunningProcesses(_ simulatorID: String) {
-		let shell = EnvironmentValues().shell
-
-		switch shell.execute(.activeProcesses(simulatorID)) {
-		case .success(let output):
-            guard let output else {
-                failure = .message("No active processes found.")
-                return
-            }
-
-			parseOutputData(output)
-		case .failure(let error):
-            failure = .message("Failed to fetch active processes: \(error)")
-			break
-		}
-	}
-
-	private func parseOutputData(_ inputData: String) {
-		let lines = inputData.components(separatedBy: "\n")
-
-		// Parse the lines into an array of ProcessInfo
-		var processes = [ProcessInfo]()
-
-		for line in lines.dropFirst() { // Drop the header line
-			let components = line.components(separatedBy: "\t")
-			if components.count == 3 {
-				let processInfo = ProcessInfo(pid: components[0], status: components[1], label: components[2])
-				processes.append(processInfo)
-			}
-		}
-
-		self.processes = processes
+        switch client.activeProcesses(simulator: simulatorID) {
+        case .success(let processInfos):
+            self.processes = processInfos
+            
+        case .failure(let error):
+            failure = .message(error.localizedDescription)
+        }
 	}
 }

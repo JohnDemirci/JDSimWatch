@@ -8,26 +8,33 @@
 import SwiftUI
 
 struct SimulatorDetailView: View {
-	@Environment(\.shell) private var shell
-    private let simulator: Simulator
+    private let simulator: Simulator_Legacy
+    private let client: Client
 
-    init(simulator: Simulator) {
+    init(
+        simulator: Simulator_Legacy,
+        client: Client = .live
+    ) {
         self.simulator = simulator
+        self.client = client
     }
 
     var body: some View {
         List {
-            ProcessesNavigationLink(simulator: simulator)
+            ProcessesNavigationLink(simulator: simulator, client: client)
             GoToDocumentsView(simulator: simulator)
-            EraseContentsView(simulator: simulator)
-            InstalledApplicationsButtonView(simulator: simulator)
+            EraseContentsView(simulator: simulator, client: client)
+            InstalledApplicationsButtonView(
+                simulator: simulator,
+                client: client
+            )
         }
 		.navigationTitle(simulator.name)
     }
 }
 
 private struct GoToDocumentsView: View {
-	let simulator: Simulator
+	let simulator: Simulator_Legacy
     @State private var failure: Failure?
 
 	var body: some View {
@@ -53,12 +60,16 @@ private extension GoToDocumentsView {
 }
 
 private struct ProcessesNavigationLink: View {
-	let simulator: Simulator
+	let simulator: Simulator_Legacy
+    let client: Client
 
 	var body: some View {
 		NavigationLink(
 			destination: {
-				RunningProcessesView(simulator: simulator)
+                RunningProcessesView(
+                    simulator: simulator,
+                    client: client
+                )
 			},
 			label: {
                 Text("Processes")
@@ -69,8 +80,8 @@ private struct ProcessesNavigationLink: View {
 }
 
 private struct EraseContentsView: View {
-	@Environment(\.shell) private var shell
-	let simulator: Simulator
+	let simulator: Simulator_Legacy
+    let client: Client
     @State private var failure: Failure?
 
 	var body: some View {
@@ -85,9 +96,7 @@ private struct EraseContentsView: View {
 
 extension EraseContentsView {
 	func eraseSimulator() {
-        let result = shell.execute(.eraseContents(simulator.id))
-
-        switch result {
+        switch client.eraseContents(simulator: simulator.id) {
         case .success:
             break
         case .failure(let error):
@@ -97,11 +106,17 @@ extension EraseContentsView {
 }
 
 private struct InstalledApplicationsButtonView: View {
-	let simulator: Simulator
+	let simulator: Simulator_Legacy
+    let client: Client
 
 	var body: some View {
 		NavigationLink(
-			destination: { InstalledApplicationsView(simulator: simulator) },
+            destination: {
+                InstalledApplicationsView(
+                    simulator: simulator,
+                    client: client
+                )
+            },
 			label: {
 				Text("Installed Applications")
 			}

@@ -24,7 +24,6 @@ struct InactiveSimulatorsSectionView: View {
 }
 
 struct InactiveSimulatorsSectionContentView: View {
-    @Environment(\.shell) private var shell
     let version: InactiveSimulatorParser.OSVersion
     @Bindable var manager: SimulatorManager
     @State private var failure: Failure?
@@ -34,12 +33,11 @@ struct InactiveSimulatorsSectionContentView: View {
             LabeledContent(device.name) {
                 Button(
                     action: {
-                        switch shell.execute(.openSimulator(device.uuid)) {
+                        switch manager.client.openSimulator(simulator: device.uuid) {
                         case .success:
                             manager.fetchSimulators()
                         case .failure(let error):
                             failure = .message(error.localizedDescription)
-                            break
                         }
                     },
                     label: {
