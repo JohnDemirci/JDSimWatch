@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+extension SimulatorClient {
     static func handleFetchAllSimulator_Legacy(
         _ result: Result<String?, Error>
     ) -> Result<[InactiveSimulatorParser.OSVersion], Error> {
@@ -25,7 +25,7 @@ extension Client {
     }
 }
 
-extension Client {
+extension SimulatorClient {
     private static func parseDeviceInfo(_ text: String) -> [InactiveSimulatorParser.OSVersion] {
         var osVersions: [InactiveSimulatorParser.OSVersion] = []
         var currentOS: InactiveSimulatorParser.OSVersion?

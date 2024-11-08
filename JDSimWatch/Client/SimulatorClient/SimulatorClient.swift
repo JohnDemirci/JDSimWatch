@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Client {
+struct SimulatorClient {
     fileprivate var _fetchAllSimulators_Legacy: () -> Result<[InactiveSimulatorParser.OSVersion], Error>
     fileprivate var _fetchBootedSimulators_Legacy: () -> Result<[Simulator_Legacy], Error>
     fileprivate var _shutdownSimulator: (String) -> Result<Void, Error>
@@ -70,8 +70,8 @@ struct Client {
     }
 }
 
-extension Client {
-    static let live: Client = .init(
+extension SimulatorClient {
+    static let live: SimulatorClient = .init(
         _fetchAllSimulators_Legacy: {
             handleFetchAllSimulator_Legacy(Shell.shared.execute(.fetchAllSimulators))
         },
@@ -99,7 +99,7 @@ extension Client {
     )
 
     #if DEBUG
-    static var testing: Client = .init(
+    static var testing: SimulatorClient = .init(
         _fetchAllSimulators_Legacy: { fatalError("not implemented") },
         _fetchBootedSimulators_Legacy: { fatalError("not implemented") },
         _shutdownSimulator: { _ in fatalError("not implemented") },
@@ -112,7 +112,7 @@ extension Client {
     #endif
 }
 
-extension Client {
+extension SimulatorClient {
     @discardableResult
     mutating func mutate(
         _fetchAllSimulators_Legacy: (() -> Result<[InactiveSimulatorParser.OSVersion], Error>)? = nil,

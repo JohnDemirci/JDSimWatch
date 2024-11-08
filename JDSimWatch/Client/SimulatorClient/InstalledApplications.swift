@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+extension SimulatorClient {
     static func handleInstalledApplications(
         _ simulatorID: String
     ) -> Result<[InstalledApplicationsViewModel.AppInfo], Error> {

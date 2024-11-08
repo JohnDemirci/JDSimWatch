@@ -5,7 +5,7 @@
 //  Created by John Demirci on 11/7/24.
 //
 
-extension Client {
+extension SimulatorClient {
     static func handleRunningProcesses(
         _ id: String
     ) -> Result<[ProcessInfo], Error> {
@@ -23,7 +23,7 @@ extension Client {
     }
 }
 
-extension Client {
+extension SimulatorClient {
     private static func parseOutputData(_ inputData: String) -> Result<[ProcessInfo], Error> {
         let lines = inputData.components(separatedBy: "\n")
 

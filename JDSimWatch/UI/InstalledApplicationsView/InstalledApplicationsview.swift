@@ -15,9 +15,14 @@ struct InstalledApplicationsView: View {
 
     init(
         simulator: Simulator_Legacy,
-        client: Client
+        simulatorClient: SimulatorClient,
+        folderClient: FolderClient
     ) {
-        self.viewModel = .init(client: client)
+        self.viewModel = .init(
+            simulatorClient: simulatorClient,
+            folderClient: folderClient
+        )
+
         self.simulator = simulator
     }
 
@@ -28,7 +33,8 @@ struct InstalledApplicationsView: View {
 					AppSandboxView(
 						app: apps,
 						simulatorID: simulator.id,
-                        client: viewModel.client
+                        simulatorClient: viewModel.simulatorClient,
+                        folderClient: viewModel.folderClient
 					)
                 }
             }

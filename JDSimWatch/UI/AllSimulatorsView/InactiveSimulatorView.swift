@@ -31,7 +31,7 @@ struct InacvtiveSimulatorsView: View {
             }
         }
         .onAppear {
-            switch manager.client.fetchAllSimulators_Legacy() {
+            switch manager.simulatorClient.fetchAllSimulators_Legacy() {
             case .success(let osVersions):
                 self.osVersions = osVersions
             case .failure(let error):

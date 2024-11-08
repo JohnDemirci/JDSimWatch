@@ -1,13 +1,15 @@
 //
-//  ShutdownSimulator.swift
+//  OpenSimulator.swift
 //  JDSimWatch
 //
 //  Created by John Demirci on 11/7/24.
 //
 
-extension Client {
-    static func handleShutdownSimulator(id: String) -> Result<Void, Error> {
-        switch Shell.shared.execute(.shotdown(id)) {
+import Foundation
+
+extension SimulatorClient {
+    static func handleOpenSimulator(_ id: String) -> Result<Void, Error> {
+        switch Shell.shared.execute(.openSimulator(id)) {
         case .success:
             return .success(())
         case .failure(let error):

@@ -9,24 +9,28 @@ import SwiftUI
 
 struct SimulatorDetailView: View {
     private let simulator: Simulator_Legacy
-    private let client: Client
+    private let simulatorClient: SimulatorClient
+    private let folderClient: FolderClient
 
     init(
         simulator: Simulator_Legacy,
-        client: Client = .live
+        simulatorClient: SimulatorClient = .live,
+        folderClient: FolderClient = .live
     ) {
         self.simulator = simulator
-        self.client = client
+        self.simulatorClient = simulatorClient
+        self.folderClient = folderClient
     }
 
     var body: some View {
         List {
-            ProcessesNavigationLink(simulator: simulator, client: client)
-            GoToDocumentsView(simulator: simulator)
-            EraseContentsView(simulator: simulator, client: client)
+            ProcessesNavigationLink(simulator: simulator, simulatorClient: simulatorClient)
+            GoToDocumentsView(simulator: simulator, folderClient: folderClient)
+            EraseContentsView(simulator: simulator, simulatorClient: simulatorClient)
             InstalledApplicationsButtonView(
                 simulator: simulator,
-                client: client
+                simulatorClient: simulatorClient,
+                folderClient: folderClient
             )
         }
 		.navigationTitle(simulator.name)
@@ -35,6 +39,7 @@ struct SimulatorDetailView: View {
 
 private struct GoToDocumentsView: View {
 	let simulator: Simulator_Legacy
+    let folderClient: FolderClient
     @State private var failure: Failure?
 
 	var body: some View {
@@ -49,26 +54,25 @@ private struct GoToDocumentsView: View {
 
 private extension GoToDocumentsView {
     func goToDocuments() {
-        let folderPath = "~/Library/Developer/CoreSimulator/Devices/\(simulator.id)/data/Documents/"
-        let expandedPath = NSString(string: folderPath).expandingTildeInPath
-        let fileURL = URL(fileURLWithPath: expandedPath)
-
-        if !NSWorkspace.shared.open(fileURL) {
-            failure = .message("Could not open \(fileURL)")
+        switch folderClient.openSimulatorDocuments(simulator.id) {
+        case .success:
+            break
+        case .failure(let error):
+            failure = .message(error.localizedDescription)
         }
     }
 }
 
 private struct ProcessesNavigationLink: View {
 	let simulator: Simulator_Legacy
-    let client: Client
+    let simulatorClient: SimulatorClient
 
 	var body: some View {
 		NavigationLink(
 			destination: {
                 RunningProcessesView(
                     simulator: simulator,
-                    client: client
+                    simulatorClient: simulatorClient
                 )
 			},
 			label: {
@@ -81,7 +85,7 @@ private struct ProcessesNavigationLink: View {
 
 private struct EraseContentsView: View {
 	let simulator: Simulator_Legacy
-    let client: Client
+    let simulatorClient: SimulatorClient
     @State private var failure: Failure?
 
 	var body: some View {
@@ -96,7 +100,7 @@ private struct EraseContentsView: View {
 
 extension EraseContentsView {
 	func eraseSimulator() {
-        switch client.eraseContents(simulator: simulator.id) {
+        switch simulatorClient.eraseContents(simulator: simulator.id) {
         case .success:
             break
         case .failure(let error):
@@ -107,14 +111,16 @@ extension EraseContentsView {
 
 private struct InstalledApplicationsButtonView: View {
 	let simulator: Simulator_Legacy
-    let client: Client
+    let simulatorClient: SimulatorClient
+    let folderClient: FolderClient
 
 	var body: some View {
 		NavigationLink(
             destination: {
                 InstalledApplicationsView(
                     simulator: simulator,
-                    client: client
+                    simulatorClient: simulatorClient,
+                    folderClient: folderClient
                 )
             },
 			label: {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+extension SimulatorClient {
     static func handleUninstallApplication(
         _ bundleID: String,
         simulatorID: String

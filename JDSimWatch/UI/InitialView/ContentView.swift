@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Bindable var manager: SimulatorManager
+    let folderClient: FolderClient
 
     var body: some View {
         NavigationSplitView(
@@ -24,7 +25,11 @@ struct ContentView: View {
                 OptionalView(
                     data: manager.selectedSimulator,
                     unwrappedData: { selectedSimulator in
-                        SimulatorDetailView(simulator: selectedSimulator)
+                        SimulatorDetailView(
+                            simulator: selectedSimulator,
+                            simulatorClient: manager.simulatorClient,
+                            folderClient: folderClient
+                        )
                     },
                     placeholderView: {
                         NoActiveSimulatorsView(manager: manager)

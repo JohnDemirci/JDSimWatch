@@ -10,10 +10,15 @@ import SwiftUI
 @main
 struct SimuWatchApp: App {
     @State private var manager = SimulatorManager()
-    private let client: Client = .live
+    private let simulatorClient: SimulatorClient = .live
+    private let folderClient: FolderClient = .live
+
     var body: some Scene {
         WindowGroup {
-            ContentView(manager: manager)
+            ContentView(
+                manager: manager,
+                folderClient: folderClient
+            )
         }
     }
 }

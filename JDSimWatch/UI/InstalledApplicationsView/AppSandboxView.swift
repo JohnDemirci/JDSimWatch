@@ -17,12 +17,14 @@ struct AppSandboxView: View {
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
 		simulatorID: String,
-        client: Client
+        simulatorClient: SimulatorClient,
+        folderClient: FolderClient
 	) {
 		self.viewModel = .init(
 			app: app,
 			simulatorID: simulatorID,
-            client: client
+            simulatorClient: simulatorClient,
+            folderClient: folderClient
 		)
     }
 
@@ -105,7 +107,8 @@ struct ListRowTapableButton: View {
 final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
 	private let simulatorID: String
-    private let client: Client
+    private let simulatorClient: SimulatorClient
+    private let folderClient: FolderClient
 
     var failure: Failure? {
         didSet {
@@ -126,11 +129,13 @@ final class AppSandboxViewModel {
 	init(
 		app: InstalledApplicationsViewModel.AppInfo,
 		simulatorID: String,
-        client: Client = .live
+        simulatorClient: SimulatorClient = .live,
+        folderClient: FolderClient = .live
 	) {
         self.app = app
 		self.simulatorID = simulatorID
-        self.client = client
+        self.simulatorClient = simulatorClient
+        self.folderClient = folderClient
     }
 
     func openApplicationSupport() {
@@ -138,10 +143,12 @@ final class AppSandboxViewModel {
             failure = .message("No Application Support Folder")
             return
         }
-        let expandedPath = NSString(string: folderPath).expandingTildeInPath
-        let fileURL = URL(fileURLWithPath: expandedPath)
-        if !NSWorkspace.shared.open(fileURL) {
-            failure = .message("Could not open Application Support Folder")
+
+        switch folderClient.openAppSandboxFolder(folderPath) {
+        case .success:
+            break
+        case .failure(let error):
+            self.failure = .message(error.localizedDescription)
         }
     }
 
@@ -155,12 +162,12 @@ final class AppSandboxViewModel {
             failure = .message("No Bundle Identifier")
             return
         }
-        let string = "\(bundleIdentifier).plist"
-        let newPath = "\(folderPath)/Library/Preferences/\(string)"
-        let fileURL = URL(fileURLWithPath: newPath)
 
-        if !NSWorkspace.shared.open(fileURL) {
-            failure = .message("Could not open User Defaults Folder")
+        switch folderClient.openUserDefaults(container: folderPath, bundleID: bundleIdentifier) {
+        case .success:
+            break
+        case .failure(let error):
+            self.failure = .message(error.localizedDescription)
         }
     }
 
@@ -175,7 +182,7 @@ final class AppSandboxViewModel {
 			return
 		}
 
-        switch client.uninstallApp(bundleIdentifier, at: simulatorID) {
+        switch simulatorClient.uninstallApp(bundleIdentifier, at: simulatorID) {
         case .success:
             dismiss.send(())
 
@@ -193,14 +200,12 @@ final class AppSandboxViewModel {
             failure = .message("No Bundle Identifier")
             return
         }
-        let userDefaultsExtension = "\(bundleIdentifier).plist"
-        let newPath = "\(folderPath)/Library/Preferences/\(userDefaultsExtension)"
-        let fileURL = URL(fileURLWithPath: newPath)
 
-        do {
-            try FileManager.default.removeItem(at: fileURL)
-        } catch {
-            failure = .message("Could not remove User Defaults File")
+        switch folderClient.removeUserDefaults(container: folderPath, bundleID: bundleIdentifier) {
+        case .success:
+            break
+        case .failure(let error):
+            self.failure = .message(error.localizedDescription)
         }
     }
 }

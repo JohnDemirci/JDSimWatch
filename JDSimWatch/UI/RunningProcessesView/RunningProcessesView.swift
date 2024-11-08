@@ -14,10 +14,10 @@ struct RunningProcessesView: View {
 
 	init(
         simulator: Simulator_Legacy,
-        client: Client
+        simulatorClient: SimulatorClient
     ) {
 		self.simulator = simulator
-        self.viewModel = .init(client: client)
+        self.viewModel = .init(simulatorClient: simulatorClient)
 	}
 
 	var body: some View {
@@ -64,10 +64,10 @@ final class RunningProcessesViewModel {
 	private var processes: [ProcessInfo] = []
 	var filter: String = ""
     var failure: Failure?
-    let client: Client
+    let simulatorClient: SimulatorClient
 
-    init(client: Client = .live) {
-        self.client = client
+    init(simulatorClient: SimulatorClient = .live) {
+        self.simulatorClient = simulatorClient
     }
 
 	var filteredProcesses: [ProcessInfo] {
@@ -79,7 +79,7 @@ final class RunningProcessesViewModel {
 	}
 
 	func fetchRunningProcesses(_ simulatorID: String) {
-        switch client.activeProcesses(simulator: simulatorID) {
+        switch simulatorClient.activeProcesses(simulator: simulatorID) {
         case .success(let processInfos):
             self.processes = processInfos
             

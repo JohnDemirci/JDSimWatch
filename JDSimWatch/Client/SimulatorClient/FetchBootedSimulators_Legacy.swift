@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+extension SimulatorClient {
     static func handleFetchBootedSimulators_Legacy(
         _ result: Result<String?, Error>
     ) -> Result<[Simulator_Legacy], Error> {
@@ -29,7 +29,7 @@ extension Client {
     }
 }
 
-extension Client {
+extension SimulatorClient {
     private static func parseDeviceInfo(_ input: String) -> Simulator_Legacy? {
         let pattern = "^(.+) \\((\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12})\\)"
         let regex = try? NSRegularExpression(pattern: pattern, options: [])

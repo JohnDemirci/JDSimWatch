@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+extension SimulatorClient {
     static func handleEraseContentAndSettings(_ id: String) -> Result<Void, Error> {
         switch Shell.shared.execute(.eraseContents(id)) {
         case .success:

@@ -19,12 +19,12 @@ final class SimulatorManager {
     private var observers: [AnyCancellable] = []
     var simulators: [Simulator_Legacy] = []
     var selectedSimulator: Simulator_Legacy? = nil
-    let client: Client
+    let simulatorClient: SimulatorClient
 
     var failure: Failure?
 
-    init(client: Client = .live) {
-        self.client = client
+    init(simulatorClient: SimulatorClient = .live) {
+        self.simulatorClient = simulatorClient
         registerObservers()
     }
 
@@ -59,7 +59,7 @@ extension SimulatorManager {
     }
 
     func fetchSimulators() {
-        switch client.fetchBootedSimulators_Legacy() {
+        switch simulatorClient.fetchBootedSimulators_Legacy() {
         case .success(let simulators):
             self.simulators = simulators
             self.selectedSimulator = self.simulators.first
@@ -70,7 +70,7 @@ extension SimulatorManager {
     }
 
     func shutdownSimulator(_ simulator: Simulator_Legacy) {
-        switch client.shutdownSimulator(simulator: simulator.id) {
+        switch simulatorClient.shutdownSimulator(simulator: simulator.id) {
         case .success:
             simulators.removeAll { $0 == simulator }
             if selectedSimulator == simulator {

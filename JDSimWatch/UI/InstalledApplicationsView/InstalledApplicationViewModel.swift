@@ -12,14 +12,19 @@ import SwiftUI
 final class InstalledApplicationsViewModel {
     var installedApplications: [AppInfo] = []
     var failure: Failure?
-    let client: Client
+    let simulatorClient: SimulatorClient
+    let folderClient: FolderClient
 
-    init(client: Client = .live) {
-        self.client = client
+    init(
+        simulatorClient: SimulatorClient = .live,
+        folderClient: FolderClient = .live
+    ) {
+        self.simulatorClient = simulatorClient
+        self.folderClient = folderClient
     }
 
 	func fetchInstalledApplications(_ simulatorID: String) {
-        switch client.installedApps(simulator: simulatorID) {
+        switch simulatorClient.installedApps(simulator: simulatorID) {
         case .success(let infos):
             self.installedApplications = infos
 
