@@ -39,6 +39,7 @@ struct ContentView: View {
                     NavigationLink("Simulators") {
                         InacvtiveSimulatorsView(manager: manager)
                     }
+                    .accessibilityIdentifier("SimulatorsToolbarButton")
                 }
             }
         )
@@ -80,6 +81,7 @@ struct NoActiveSimulatorsView: View {
             NavigationLink("Fetch Inactive Simulators") {
                 InacvtiveSimulatorsView(manager: manager)
             }
+            .accessibilityIdentifier("fetchButton")
         }
     }
 }

@@ -9,14 +9,18 @@ import SwiftUI
 
 struct InacvtiveSimulatorsView: View {
     @Environment(\.dismiss) private var dismiss
+    @Bindable var viewModel: InactiveSimulatorViewModel
     @Bindable var manager: SimulatorManager
-    @State private var failure: Failure?
-    @State var osVersions: [InactiveSimulatorParser.OSVersion] = []
+
+    init(manager: SimulatorManager) {
+        self.manager = manager
+        self.viewModel = .init(simulatorClient: manager.simulatorClient)
+    }
 
     var body: some View {
         List {
             InactiveSimulatorsSectionView(
-                osVersions: osVersions,
+                osVersions: viewModel.osAndSimulators,
                 manager: manager
             )
         }
@@ -31,19 +35,35 @@ struct InacvtiveSimulatorsView: View {
             }
         }
         .onAppear {
-            switch manager.simulatorClient.fetchAllSimulators_Legacy() {
-            case .success(let osVersions):
-                self.osVersions = osVersions
-            case .failure(let error):
-                failure = .message(error.localizedDescription)
-            }
+            viewModel.fetchAllSimulators()
         }
-        .alert(item: $manager.failure) {
+        .alert(item: $viewModel.failure) {
             Alert(title: Text($0.description))
         }
-        .alert(item: $failure) {
+        .alert(item: $viewModel.failure) {
             Alert(title: Text($0.description))
         }
         .navigationTitle("Simulator List")
+    }
+}
+
+@Observable
+final class InactiveSimulatorViewModel {
+    let simulatorClient: SimulatorClient
+    var failure: Failure?
+    var osAndSimulators: [InactiveSimulatorParser.OSVersion] = []
+
+    init(simulatorClient: SimulatorClient) {
+        self.simulatorClient = simulatorClient
+    }
+
+    func fetchAllSimulators() {
+        switch simulatorClient.fetchAllSimulators_Legacy() {
+        case .success(let osAndSimulators):
+            self.osAndSimulators = osAndSimulators
+
+        case .failure(let error):
+            self.failure = .message(error.localizedDescription)
+        }
     }
 }

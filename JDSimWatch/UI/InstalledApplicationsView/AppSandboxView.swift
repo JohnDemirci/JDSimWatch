@@ -104,7 +104,7 @@ struct ListRowTapableButton: View {
 }
 
 @Observable
-final class AppSandboxViewModel {
+private final class AppSandboxViewModel {
     private let app: InstalledApplicationsViewModel.AppInfo
 	private let simulatorID: String
     private let simulatorClient: SimulatorClient

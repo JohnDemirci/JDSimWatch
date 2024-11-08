@@ -16,4 +16,8 @@ enum Failure: Error, CustomStringConvertible, Identifiable, Hashable {
     }
 
     var id: String { description }
+
+    static func == (lhs: Failure, rhs: Failure) -> Bool {
+        lhs.description == rhs.description
+    }
 }

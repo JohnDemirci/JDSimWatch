@@ -60,7 +60,7 @@ struct ProcessInfo: Identifiable, Hashable {
 }
 
 @Observable
-final class RunningProcessesViewModel {
+private final class RunningProcessesViewModel {
 	private var processes: [ProcessInfo] = []
 	var filter: String = ""
     var failure: Failure?

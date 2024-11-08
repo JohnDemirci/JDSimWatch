@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
+		585F3E0C2CDE819A0021597E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 587A04F12C7CE9C900D32C10 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 587A04F82C7CE9C900D32C10;
+			remoteInfo = JDSimWatch;
+		};
 		587E69542CD959180080585C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 587A04F12C7CE9C900D32C10 /* Project object */;
@@ -17,16 +24,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		585F3E062CDE819A0021597E /* JDSimWatchUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JDSimWatchUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		587A04F92C7CE9C900D32C10 /* JDSimWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JDSimWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		587E69502CD959180080585C /* JDSimWatchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JDSimWatchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		585F3E072CDE819A0021597E /* JDSimWatchUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = JDSimWatchUITests; sourceTree = "<group>"; };
 		587E69512CD959180080585C /* JDSimWatchTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = JDSimWatchTests; sourceTree = "<group>"; };
 		587E69782CD9592D0080585C /* JDSimWatch */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = JDSimWatch; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		585F3E032CDE819A0021597E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		587A04F62C7CE9C900D32C10 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -49,6 +65,7 @@
 			children = (
 				587E69782CD9592D0080585C /* JDSimWatch */,
 				587E69512CD959180080585C /* JDSimWatchTests */,
+				585F3E072CDE819A0021597E /* JDSimWatchUITests */,
 				587A04FA2C7CE9C900D32C10 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -58,6 +75,7 @@
 			children = (
 				587A04F92C7CE9C900D32C10 /* JDSimWatch.app */,
 				587E69502CD959180080585C /* JDSimWatchTests.xctest */,
+				585F3E062CDE819A0021597E /* JDSimWatchUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,6 +83,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		585F3E052CDE819A0021597E /* JDSimWatchUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 585F3E0E2CDE819A0021597E /* Build configuration list for PBXNativeTarget "JDSimWatchUITests" */;
+			buildPhases = (
+				585F3E022CDE819A0021597E /* Sources */,
+				585F3E032CDE819A0021597E /* Frameworks */,
+				585F3E042CDE819A0021597E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				585F3E0D2CDE819A0021597E /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				585F3E072CDE819A0021597E /* JDSimWatchUITests */,
+			);
+			name = JDSimWatchUITests;
+			packageProductDependencies = (
+			);
+			productName = JDSimWatchUITests;
+			productReference = 585F3E062CDE819A0021597E /* JDSimWatchUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		587A04F82C7CE9C900D32C10 /* JDSimWatch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 587A05082C7CE9CA00D32C10 /* Build configuration list for PBXNativeTarget "JDSimWatch" */;
@@ -118,6 +159,10 @@
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					585F3E052CDE819A0021597E = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 587A04F82C7CE9C900D32C10;
+					};
 					587A04F82C7CE9C900D32C10 = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -142,11 +187,19 @@
 			targets = (
 				587A04F82C7CE9C900D32C10 /* JDSimWatch */,
 				587E694F2CD959180080585C /* JDSimWatchTests */,
+				585F3E052CDE819A0021597E /* JDSimWatchUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		585F3E042CDE819A0021597E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		587A04F72C7CE9C900D32C10 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -164,6 +217,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		585F3E022CDE819A0021597E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		587A04F52C7CE9C900D32C10 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -181,6 +241,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		585F3E0D2CDE819A0021597E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 587A04F82C7CE9C900D32C10 /* JDSimWatch */;
+			targetProxy = 585F3E0C2CDE819A0021597E /* PBXContainerItemProxy */;
+		};
 		587E69552CD959180080585C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 587A04F82C7CE9C900D32C10 /* JDSimWatch */;
@@ -189,6 +254,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		585F3E0F2CDE819A0021597E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2N277QXTNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demirci.JDSimWatchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = JDSimWatch;
+			};
+			name = Debug;
+		};
+		585F3E102CDE819A0021597E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2N277QXTNA;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.demirci.JDSimWatchUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = JDSimWatch;
+			};
+			name = Release;
+		};
 		587A05062C7CE9CA00D32C10 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -400,6 +499,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		585F3E0E2CDE819A0021597E /* Build configuration list for PBXNativeTarget "JDSimWatchUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				585F3E0F2CDE819A0021597E /* Debug */,
+				585F3E102CDE819A0021597E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		587A04F42C7CE9C900D32C10 /* Build configuration list for PBXProject "JDSimWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
