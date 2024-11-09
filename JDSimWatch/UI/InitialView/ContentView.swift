@@ -36,7 +36,7 @@ struct ContentView: View {
                     }
                 )
                 .toolbar {
-                    NavigationLink("Simulators") {
+                    NavigationLink("Simulator List") {
                         InacvtiveSimulatorsView(manager: manager)
                     }
                     .accessibilityIdentifier("SimulatorsToolbarButton")
