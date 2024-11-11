@@ -21,7 +21,35 @@ struct Shell {
 
         case .eraseContents(let uuid):      eraseContent(uuid: uuid)
 
+        case .deleteSimulator(let uuid):    deleteSimulator(uuid)
+
         case .openSimulator(let uuid):      openSimulator(uuid: uuid)
+        }
+    }
+
+    private func deleteSimulator(_ uuid: String) -> Result<String?, Error> {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
+        process.arguments = ["simctl", "delete", uuid]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+        process.standardError = pipe
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            let output = String(data: data, encoding: .utf8)
+
+            if process.terminationStatus == 0 {
+                return .success(output)
+            } else {
+                return .failure(Failure.simulatorTermination)
+            }
+        } catch {
+            return .failure(error)
         }
     }
 
@@ -103,6 +131,7 @@ struct Shell {
 extension Shell {
     enum Failure: Error {
         case decoding
+        case simulatorTermination
     }
 }
 
@@ -115,6 +144,7 @@ extension Shell {
 		case activeProcesses(String)
 		case eraseContents(String) // do not exclusively call this when executing command use the helper function
 		case installedApps(String)
+        case deleteSimulator(String)
 		case uninstallApp(String, String)
 
 		var path: Path {
@@ -122,7 +152,7 @@ extension Shell {
 	 		case .fetchBootedSimulators, .fetchAllSimulators, .activeProcesses:
                 .bash
 
-            case .shotdown, .installedApps, .eraseContents, .uninstallApp:
+            case .shotdown, .installedApps, .eraseContents, .uninstallApp, .deleteSimulator:
                 .xcrun
 
             case .openSimulator:
@@ -137,6 +167,9 @@ extension Shell {
 
 			case .eraseContents(let id):
 				["simctl", "erase", id]
+
+            case .deleteSimulator(let id):
+                ["simctl", "delete", id]
 
             case .fetchBootedSimulators:
                 ["-c", "xcrun simctl list devices | grep Booted"]

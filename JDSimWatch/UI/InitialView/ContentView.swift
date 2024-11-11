@@ -28,7 +28,8 @@ struct ContentView: View {
                         SimulatorDetailView(
                             simulator: selectedSimulator,
                             simulatorClient: manager.simulatorClient,
-                            folderClient: folderClient
+                            folderClient: folderClient,
+                            lifecycleObserver: manager.lifecycleObserver
                         )
                     },
                     placeholderView: {
@@ -39,7 +40,6 @@ struct ContentView: View {
                     NavigationLink("Simulator List") {
                         InacvtiveSimulatorsView(manager: manager)
                     }
-                    .accessibilityIdentifier("SimulatorsToolbarButton")
                 }
             }
         )
@@ -68,7 +68,6 @@ private struct SidebarButton: View {
                 Alert(title: Text(failure.description))
             }
         }
-
     }
 }
 

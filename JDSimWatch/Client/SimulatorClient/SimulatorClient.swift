@@ -16,6 +16,7 @@ struct SimulatorClient {
     fileprivate var _eraseContentAndSettings: (String) -> Result<Void, Error>
     fileprivate var _installedApps: (String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>
     fileprivate var _uninstallApp: (String, String) -> Result<Void, Error>
+    fileprivate var _deleteSimulator: (String) -> Result<Void, Error>
 
     private init(
         _fetchAllSimulators_Legacy: @escaping () -> Result<[InactiveSimulatorParser.OSVersion], Error>,
@@ -25,7 +26,8 @@ struct SimulatorClient {
         _activeProcesses: @escaping (String) -> Result<[ProcessInfo], Error>,
         _eraseContentAndSettings: @escaping (String) -> Result<Void, Error>,
         _installedApps: @escaping (String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>,
-        _uninstallApp: @escaping (String, String) -> Result<Void, Error>
+        _uninstallApp: @escaping (String, String) -> Result<Void, Error>,
+        _deleteSimulator: @escaping (String) -> Result<Void, Error>
     ) {
         self._fetchAllSimulators_Legacy = _fetchAllSimulators_Legacy
         self._fetchBootedSimulators_Legacy = _fetchBootedSimulators_Legacy
@@ -35,6 +37,7 @@ struct SimulatorClient {
         self._eraseContentAndSettings = _eraseContentAndSettings
         self._installedApps = _installedApps
         self._uninstallApp = _uninstallApp
+        self._deleteSimulator = _deleteSimulator
     }
 
     func fetchAllSimulators_Legacy() -> Result<[InactiveSimulatorParser.OSVersion], Error> {
@@ -68,15 +71,19 @@ struct SimulatorClient {
     func uninstallApp(_ bundleID: String, at simulatorID: String) -> Result<Void, Error> {
         return _uninstallApp(bundleID, simulatorID)
     }
+
+    func deleteSimulator(simulator: String) -> Result<Void, Error> {
+        return _deleteSimulator(simulator)
+    }
 }
 
 extension SimulatorClient {
     static let live: SimulatorClient = .init(
         _fetchAllSimulators_Legacy: {
-            handleFetchAllSimulator_Legacy(Shell.shared.execute(.fetchAllSimulators))
+            handleFetchAllSimulator_Legacy()
         },
         _fetchBootedSimulators_Legacy: {
-            handleFetchBootedSimulators_Legacy(Shell.shared.execute(.fetchBootedSimulators))
+            handleFetchBootedSimulators_Legacy()
         },
         _shutdownSimulator: {
             handleShutdownSimulator(id: $0)
@@ -95,6 +102,9 @@ extension SimulatorClient {
         },
         _uninstallApp: {
             handleUninstallApplication($0, simulatorID: $1)
+        },
+        _deleteSimulator: {
+            handleDeleteSimulator($0)
         }
     )
 
@@ -107,7 +117,8 @@ extension SimulatorClient {
         _activeProcesses: { _ in fatalError("not implemented") },
         _eraseContentAndSettings: { _ in fatalError("not implemented") },
         _installedApps: { _ in fatalError("not implemented")},
-        _uninstallApp: { _, _ in fatalError("not implemented") }
+        _uninstallApp: { _, _ in fatalError("not implemented") },
+        _deleteSimulator: { _ in fatalError("not implemented") }
     )
     #endif
 }
@@ -122,7 +133,8 @@ extension SimulatorClient {
         _activeProcesses:  ((String) -> Result<[ProcessInfo], Error>)? = nil,
         _eraseContentAndSettings:  ((String) -> Result<Void, Error>)? = nil,
         _installedApps:  ((String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>)? = nil,
-        _uninstallApp:  ((String, String) -> Result<Void, Error>)? = nil
+        _uninstallApp:  ((String, String) -> Result<Void, Error>)? = nil,
+        _deleteSimulator:  ((String) -> Result<Void, Error>)? = nil
     ) -> Self {
         if let allSimulators = _fetchAllSimulators_Legacy {
             self._fetchAllSimulators_Legacy = allSimulators
@@ -154,6 +166,10 @@ extension SimulatorClient {
 
         if let _uninstallApp = _uninstallApp {
             self._uninstallApp = _uninstallApp
+        }
+
+        if let _deleteSimulator = _deleteSimulator {
+            self._deleteSimulator = _deleteSimulator
         }
 
         return self

@@ -12,13 +12,17 @@ import Testing
 struct SimulatorManagerTests {
     @Test
     func fetchBootedSimulatorsSuccess() async throws {
+        let observer = LifecycleObserver()
         let simulator = Simulator_Legacy(id: "123", name: "iOS Simulator")
         let simulatorClient = SimulatorClient.testing
             .mutate(_fetchBootedSimulators_Legacy: {
                 return .success([simulator])
             })
 
-        let manager = SimulatorManager(simulatorClient: simulatorClient)
+        let manager = SimulatorManager(
+            simulatorClient: simulatorClient,
+            lifecycleObserver: observer
+        )
 
         manager.fetchSimulators()
 
@@ -28,6 +32,7 @@ struct SimulatorManagerTests {
 
     @Test
     func fetchBootedSimulatorsFailure() async throws {
+        let observer = LifecycleObserver()
         let error = Failure.message("error")
 
         let simulatorClient = SimulatorClient.testing
@@ -35,7 +40,10 @@ struct SimulatorManagerTests {
                 return .failure(error)
             })
 
-        let manager = SimulatorManager(simulatorClient: simulatorClient)
+        let manager = SimulatorManager(
+            simulatorClient: simulatorClient,
+            lifecycleObserver: observer
+        )
 
         manager.fetchSimulators()
 
@@ -46,7 +54,10 @@ struct SimulatorManagerTests {
 
     @Test
     func didSelectSimulator() async throws {
-        let manager = SimulatorManager(simulatorClient: .testing)
+        let manager = SimulatorManager(
+            simulatorClient: .testing,
+            lifecycleObserver: .init()
+        )
 
         let simulator = Simulator_Legacy(id: "123", name: "simulator")
 
@@ -62,7 +73,10 @@ struct SimulatorManagerTests {
                 return .success(())
             })
 
-        let manager = SimulatorManager(simulatorClient: client)
+        let manager = SimulatorManager(
+            simulatorClient: client,
+            lifecycleObserver: .init()
+        )
         let simulator = Simulator_Legacy(id: "123", name: "simulator")
 
         // setup
@@ -84,7 +98,10 @@ struct SimulatorManagerTests {
                 return .failure(Failure.message("error"))
             })
 
-        let manager = SimulatorManager(simulatorClient: client)
+        let manager = SimulatorManager(
+            simulatorClient: client,
+            lifecycleObserver: .init()
+        )
         let simulator = Simulator_Legacy(id: "123", name: "simulator")
 
         // setup

@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct SimuWatchApp: App {
-    @State private var manager = SimulatorManager()
-    private let simulatorClient: SimulatorClient = .live
-    private let folderClient: FolderClient = .live
+    @State private var manager: SimulatorManager
+    private let simulatorClient: SimulatorClient
+    private let folderClient: FolderClient
+    private let lifecycleObserver: LifecycleObserver
+
+    init() {
+        let lifecycleObserver = LifecycleObserver()
+
+        self.lifecycleObserver = lifecycleObserver
+        self.simulatorClient = .live
+        self.folderClient = .live
+        self.manager = .init(
+            lifecycleObserver: lifecycleObserver
+        )
+    }
 
     var body: some Scene {
         WindowGroup {

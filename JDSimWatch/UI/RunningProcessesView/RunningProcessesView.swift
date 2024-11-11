@@ -9,30 +9,25 @@ import SwiftUI
 
 struct RunningProcessesView: View {
 	@Environment(\.dismiss) private var dismiss
-	@Bindable private var viewModel = RunningProcessesViewModel()
-	private let simulator: Simulator_Legacy
+    @State private var viewManager: ViewManager
 
-	init(
-        simulator: Simulator_Legacy,
-        simulatorClient: SimulatorClient
-    ) {
-		self.simulator = simulator
-        self.viewModel = .init(simulatorClient: simulatorClient)
+	init(environment: ViewManager.Environment) {
+        self.viewManager = .init(environment: environment)
 	}
 
 	var body: some View {
 		List {
 			Section("Processes") {
-				ForEach(viewModel.filteredProcesses) { process in
+                ForEach(viewManager.state.filteredProcesses) { process in
 					Text(process.label)
 				}
 			}
 		}
-		.searchable(text: $viewModel.filter)
+        .searchable(text: $viewManager.state.filter)
 		.onAppear {
-			viewModel.fetchRunningProcesses(simulator.id)
+			viewManager.fetchRunningProcesses()
 		}
-        .alert(item: $viewModel.failure) {
+        .alert(item: $viewManager.state.failure) {
             Alert(title: Text($0.description))
         }
 		.toolbar {
@@ -56,35 +51,5 @@ struct ProcessInfo: Identifiable, Hashable {
 
 	var id: String {
 		"\(pid)\(status)\(label)"
-	}
-}
-
-@Observable
-private final class RunningProcessesViewModel {
-	private var processes: [ProcessInfo] = []
-	var filter: String = ""
-    var failure: Failure?
-    let simulatorClient: SimulatorClient
-
-    init(simulatorClient: SimulatorClient = .live) {
-        self.simulatorClient = simulatorClient
-    }
-
-	var filteredProcesses: [ProcessInfo] {
-		if filter.isEmpty { return processes }
-
-		return processes.filter {
-			$0.label.localizedCaseInsensitiveContains(filter)
-		}
-	}
-
-	func fetchRunningProcesses(_ simulatorID: String) {
-        switch simulatorClient.activeProcesses(simulator: simulatorID) {
-        case .success(let processInfos):
-            self.processes = processInfos
-            
-        case .failure(let error):
-            failure = .message(error.localizedDescription)
-        }
 	}
 }

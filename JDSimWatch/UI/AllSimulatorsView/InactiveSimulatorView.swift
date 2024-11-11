@@ -37,6 +37,9 @@ struct InacvtiveSimulatorsView: View {
         .onAppear {
             viewModel.fetchAllSimulators()
         }
+        .onChange(of: manager.simulators, initial: false) { _, _ in
+            viewModel.fetchAllSimulators()
+        }
         .alert(item: $viewModel.failure) {
             Alert(title: Text($0.description))
         }

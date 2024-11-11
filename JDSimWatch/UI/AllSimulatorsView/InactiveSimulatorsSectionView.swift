@@ -44,14 +44,21 @@ private struct InactiveSimulatorsSectionContentView: View {
     var body: some View {
         ForEach(viewModel.versionAndSimulators.devices) { device in
             LabeledContent(device.name) {
-                Button(
-                    action: {
-                        viewModel.openSimulator(device.uuid)
-                    },
-                    label: {
-                        Image(systemName: "play")
+                HStack {
+                    Button(
+                        action: {
+                            viewModel.openSimulator(device.uuid)
+                        },
+                        label: {
+                            Image(systemName: "play")
+                        }
+                    )
+
+                    Button("Delete") {
+                        viewModel.deleteSimulator(device.uuid)
+                        manager.fetchSimulators()
                     }
-                )
+                }
             }
             .alert(item: $viewModel.failure) {
                 Alert(title: Text($0.description))
@@ -87,6 +94,17 @@ private final class InactiveSimulatorsSectionContentViewModel {
         switch client.openSimulator(simulator: id) {
         case .success:
             didOpenSubject.send(())
+
+        case .failure(let error):
+            failure = .message(error.localizedDescription)
+        }
+    }
+
+    func deleteSimulator(_ id: String) {
+        switch client.deleteSimulator(simulator: id) {
+        case .success:
+
+            break
 
         case .failure(let error):
             failure = .message(error.localizedDescription)

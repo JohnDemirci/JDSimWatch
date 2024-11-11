@@ -17,35 +17,28 @@ struct Simulator_Legacy: Hashable, Identifiable {
 @Observable
 final class SimulatorManager {
     private var observers: [AnyCancellable] = []
+    let id: String
     var simulators: [Simulator_Legacy] = []
     var selectedSimulator: Simulator_Legacy? = nil
     let simulatorClient: SimulatorClient
+    let lifecycleObserver: LifecycleObserver
 
     var failure: Failure?
 
-    init(simulatorClient: SimulatorClient = .live) {
+    init(
+        simulatorClient: SimulatorClient = .live,
+        lifecycleObserver: LifecycleObserver,
+        id: String = UUID().uuidString
+    ) {
         self.simulatorClient = simulatorClient
-        registerObservers()
+        self.id = id
+        self.lifecycleObserver = lifecycleObserver
+
+        lifecycleObserver.register(self)
     }
 
-    func registerObservers() {
-        NSWorkspace
-            .shared
-            .notificationCenter
-            .publisher(for: NSWorkspace.didLaunchApplicationNotification)
-            .sink { [weak self] _ in
-                self?.fetchSimulators()
-            }
-            .store(in: &observers)
-
-        NSWorkspace
-            .shared
-            .notificationCenter
-            .publisher(for: NSWorkspace.didActivateApplicationNotification)
-            .sink { [weak self] _ in
-                self?.fetchSimulators()
-            }
-            .store(in: &observers)
+    deinit {
+        lifecycleObserver.removeObserver(self)
     }
 }
 
@@ -80,5 +73,15 @@ extension SimulatorManager {
         case .failure(let error):
             self.failure = .message(error.localizedDescription)
         }
+    }
+}
+
+extension SimulatorManager: LifecycleObservable {
+    func didLaunchApplication() {
+        self.fetchSimulators()
+    }
+    
+    func didBecomeActive() {
+        self.fetchSimulators()
     }
 }

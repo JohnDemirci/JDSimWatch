@@ -8,10 +8,8 @@
 import Foundation
 
 extension SimulatorClient {
-    static func handleFetchBootedSimulators_Legacy(
-        _ result: Result<String?, Error>
-    ) -> Result<[Simulator_Legacy], Error> {
-        switch result {
+    static func handleFetchBootedSimulators_Legacy() -> Result<[Simulator_Legacy], Error> {
+        switch Shell.shared.execute(.fetchBootedSimulators) {
         case .success(let maybeOutput):
             guard let output = maybeOutput else {
                 return .failure(Failure.message("no output from fetchBootedSimulators"))
@@ -23,6 +21,7 @@ extension SimulatorClient {
                 .compactMap { parseDeviceInfo($0) }
 
             return .success(list)
+
         case .failure(let error):
             return .failure(error)
         }

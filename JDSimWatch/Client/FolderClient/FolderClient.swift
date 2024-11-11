@@ -69,10 +69,10 @@ extension FolderClient {
 
     @discardableResult
     mutating func mutate(
-        _openAppSandboxFolder:  ((String) -> Result<Void, Error>)?,
-        _openUserDefaults:  ((String, String) -> Result<Void, Error>)?,
-        _removeUserDefaults:  ((String, String) -> Result<Void, Error>)?,
-        _openSimulatorDocuments:  ((String) -> Result<Void, Error>)?
+        _openAppSandboxFolder:  ((String) -> Result<Void, Error>)? = nil,
+        _openUserDefaults:  ((String, String) -> Result<Void, Error>)? = nil,
+        _removeUserDefaults:  ((String, String) -> Result<Void, Error>)? = nil,
+        _openSimulatorDocuments:  ((String) -> Result<Void, Error>)? = nil
     ) -> FolderClient {
         if let _openAppSandboxFolder {
             self._openAppSandboxFolder = _openAppSandboxFolder
