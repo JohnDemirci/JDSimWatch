@@ -17,6 +17,9 @@ struct SimulatorClient {
     fileprivate var _installedApps: (String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>
     fileprivate var _uninstallApp: (String, String) -> Result<Void, Error>
     fileprivate var _deleteSimulator: (String) -> Result<Void, Error>
+    fileprivate var _fetchSimulators: () -> Result<[String: [Simulator]], Error>
+    fileprivate var _fetchBootedSimulators: () -> Result<[Simulator], Error>
+    fileprivate var _fetchShutdownSimulators: () -> Result<[Simulator], Error>
 
     private init(
         _fetchAllSimulators_Legacy: @escaping () -> Result<[InactiveSimulatorParser.OSVersion], Error>,
@@ -27,7 +30,10 @@ struct SimulatorClient {
         _eraseContentAndSettings: @escaping (String) -> Result<Void, Error>,
         _installedApps: @escaping (String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>,
         _uninstallApp: @escaping (String, String) -> Result<Void, Error>,
-        _deleteSimulator: @escaping (String) -> Result<Void, Error>
+        _deleteSimulator: @escaping (String) -> Result<Void, Error>,
+        _fetchSimulators: @escaping () -> Result<[String: [Simulator]], Error>,
+        _fetchBootedSimulators: @escaping () -> Result<[Simulator], Error>,
+        _fetchShutdownSimulators: @escaping () -> Result<[Simulator], Error>
     ) {
         self._fetchAllSimulators_Legacy = _fetchAllSimulators_Legacy
         self._fetchBootedSimulators_Legacy = _fetchBootedSimulators_Legacy
@@ -38,6 +44,9 @@ struct SimulatorClient {
         self._installedApps = _installedApps
         self._uninstallApp = _uninstallApp
         self._deleteSimulator = _deleteSimulator
+        self._fetchSimulators = _fetchSimulators
+        self._fetchBootedSimulators = _fetchBootedSimulators
+        self._fetchShutdownSimulators = _fetchShutdownSimulators
     }
 
     func fetchAllSimulators_Legacy() -> Result<[InactiveSimulatorParser.OSVersion], Error> {
@@ -75,6 +84,18 @@ struct SimulatorClient {
     func deleteSimulator(simulator: String) -> Result<Void, Error> {
         return _deleteSimulator(simulator)
     }
+
+    func fetchSimulators() -> Result<[String: [Simulator]], Error> {
+        return _fetchSimulators()
+    }
+
+    func fetchBootedSimulators() -> Result<[Simulator], Error> {
+        return _fetchBootedSimulators()
+    }
+
+    func fetchShurtdownSimulators() -> Result<[Simulator], Error> {
+        return _fetchShutdownSimulators()
+    }
 }
 
 extension SimulatorClient {
@@ -105,6 +126,15 @@ extension SimulatorClient {
         },
         _deleteSimulator: {
             handleDeleteSimulator($0)
+        },
+        _fetchSimulators: {
+            handleFetchSimulators()
+        },
+        _fetchBootedSimulators: {
+            handleFetchBootedSimulators()
+        },
+        _fetchShutdownSimulators: {
+            handleFetchShutdownSimulators()
         }
     )
 
@@ -118,7 +148,10 @@ extension SimulatorClient {
         _eraseContentAndSettings: { _ in fatalError("not implemented") },
         _installedApps: { _ in fatalError("not implemented")},
         _uninstallApp: { _, _ in fatalError("not implemented") },
-        _deleteSimulator: { _ in fatalError("not implemented") }
+        _deleteSimulator: { _ in fatalError("not implemented") },
+        _fetchSimulators: { fatalError("not implemented") },
+        _fetchBootedSimulators: { fatalError("not implemented") },
+        _fetchShutdownSimulators: { fatalError("not implemented") }
     )
     #endif
 }
@@ -134,7 +167,10 @@ extension SimulatorClient {
         _eraseContentAndSettings:  ((String) -> Result<Void, Error>)? = nil,
         _installedApps:  ((String) -> Result<[InstalledApplicationsViewModel.AppInfo], Error>)? = nil,
         _uninstallApp:  ((String, String) -> Result<Void, Error>)? = nil,
-        _deleteSimulator:  ((String) -> Result<Void, Error>)? = nil
+        _deleteSimulator: ((String) -> Result<Void, Error>)? = nil,
+        _fetchSimulators: (() -> Result<[String: [Simulator]], Error>)? = nil,
+        _fetchBootedSimulators: (() -> Result<[Simulator], Error>)? = nil,
+        _fetchShutdownSimulators: (() -> Result<[Simulator], Error>)? = nil
     ) -> Self {
         if let allSimulators = _fetchAllSimulators_Legacy {
             self._fetchAllSimulators_Legacy = allSimulators
@@ -170,6 +206,18 @@ extension SimulatorClient {
 
         if let _deleteSimulator = _deleteSimulator {
             self._deleteSimulator = _deleteSimulator
+        }
+
+        if let _fetchAllSimulators = _fetchSimulators {
+            self._fetchSimulators = _fetchAllSimulators
+        }
+
+        if let _fetchBootedSimulators = _fetchBootedSimulators {
+            self._fetchBootedSimulators = _fetchBootedSimulators
+        }
+
+        if let _fetchShutdownSimulators = _fetchShutdownSimulators {
+            self._fetchShutdownSimulators = _fetchShutdownSimulators
         }
 
         return self

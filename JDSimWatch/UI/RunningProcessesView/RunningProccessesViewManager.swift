@@ -13,7 +13,7 @@ extension RunningProcessesView {
         struct Environment {
             let simulatorClient: SimulatorClient
             let lifecycleObserver: LifecycleObserver
-            let simulator: Simulator_Legacy
+            let simulator: Simulator
         }
 
         struct ViewState: Hashable {

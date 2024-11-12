@@ -12,18 +12,45 @@ struct Shell {
 
     func execute(_ command: Shell.Command) -> Result<String?, Error> {
         switch command {
-        case .fetchBootedSimulators,
+        case .fetchBootedSimulators_Legacy,
              .shotdown,
 			 .uninstallApp,
              .activeProcesses,
              .installedApps,
-             .fetchAllSimulators:           basicExecute(command)
+             .fetchAllSimulators_Legacy:    basicExecute(command)
 
         case .eraseContents(let uuid):      eraseContent(uuid: uuid)
 
         case .deleteSimulator(let uuid):    deleteSimulator(uuid)
 
+        case .fetchSimulators:              fetchSimulators()
+
         case .openSimulator(let uuid):      openSimulator(uuid: uuid)
+        }
+    }
+
+    private func fetchSimulators() -> Result<String?, Error> {
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/xcrun")
+        process.arguments = ["simctl", "list", "devices", "--json"]
+
+        let pipe = Pipe()
+        process.standardOutput = pipe
+
+        do {
+            try process.run()
+            process.waitUntilExit()
+
+            // Read data from the pipe
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+
+            guard let stringOutput = String(data: data, encoding: .utf8) else {
+                return .failure(Failure.decoding)
+            }
+
+            return .success(stringOutput)
+        } catch {
+            return .failure(error)
         }
     }
 
@@ -137,8 +164,9 @@ extension Shell {
 
 extension Shell {
     enum Command {
-        case fetchBootedSimulators
-        case fetchAllSimulators
+        case fetchBootedSimulators_Legacy
+        case fetchAllSimulators_Legacy
+        case fetchSimulators
         case shotdown(String)
         case openSimulator(String)
 		case activeProcesses(String)
@@ -149,10 +177,10 @@ extension Shell {
 
 		var path: Path {
 			switch self {
-	 		case .fetchBootedSimulators, .fetchAllSimulators, .activeProcesses:
+            case .fetchBootedSimulators_Legacy, .fetchAllSimulators_Legacy, .activeProcesses:
                 .bash
 
-            case .shotdown, .installedApps, .eraseContents, .uninstallApp, .deleteSimulator:
+            case .shotdown, .installedApps, .eraseContents, .uninstallApp, .deleteSimulator, .fetchSimulators:
                 .xcrun
 
             case .openSimulator:
@@ -171,10 +199,10 @@ extension Shell {
             case .deleteSimulator(let id):
                 ["simctl", "delete", id]
 
-            case .fetchBootedSimulators:
+            case .fetchBootedSimulators_Legacy:
                 ["-c", "xcrun simctl list devices | grep Booted"]
 
-            case .fetchAllSimulators:
+            case .fetchAllSimulators_Legacy:
                 ["-c", "xcrun simctl list devices"]
 
             case .shotdown(let uuid):
@@ -188,6 +216,9 @@ extension Shell {
 
 			case .uninstallApp(let simulatorUUID, let bundleID):
 				["simctl", "uninstall", simulatorUUID, bundleID]
+
+            case .fetchSimulators:
+                ["simctl", "list", "devices", "--json"]
             }
         }
     }

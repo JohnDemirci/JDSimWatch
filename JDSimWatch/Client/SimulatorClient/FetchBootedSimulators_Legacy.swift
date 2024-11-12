@@ -9,7 +9,7 @@ import Foundation
 
 extension SimulatorClient {
     static func handleFetchBootedSimulators_Legacy() -> Result<[Simulator_Legacy], Error> {
-        switch Shell.shared.execute(.fetchBootedSimulators) {
+        switch Shell.shared.execute(.fetchBootedSimulators_Legacy) {
         case .success(let maybeOutput):
             guard let output = maybeOutput else {
                 return .failure(Failure.message("no output from fetchBootedSimulators"))

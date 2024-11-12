@@ -11,11 +11,19 @@ struct ContentView: View {
     @Bindable var manager: SimulatorManager
     let folderClient: FolderClient
 
+    init(
+        manager: SimulatorManager,
+        folderClient: FolderClient
+    ) {
+        self.manager = manager
+        self.folderClient = folderClient
+    }
+
     var body: some View {
         NavigationSplitView(
             sidebar: {
                 List {
-                    ForEach(manager.simulators) { simulator in
+                    ForEach(manager.bootedSimulators) { simulator in
                         SidebarButton(simulator: simulator, manager: manager)
                     }
                 }
@@ -33,12 +41,14 @@ struct ContentView: View {
                         )
                     },
                     placeholderView: {
-                        NoActiveSimulatorsView(manager: manager)
+                        NoActiveSimulatorsView(manager: $manager)
                     }
                 )
                 .toolbar {
                     NavigationLink("Simulator List") {
-                        InacvtiveSimulatorsView(manager: manager)
+                        InacvtiveSimulatorsView(
+                            manager: manager
+                        )
                     }
                 }
             }
@@ -47,11 +57,11 @@ struct ContentView: View {
 }
 
 private struct SidebarButton: View {
-    let simulator: Simulator_Legacy
+    let simulator: Simulator
     @Bindable var manager: SimulatorManager
 
     var body: some View {
-        Button(simulator.name) {
+        Button(simulator.name ?? "") {
             manager.didSelectSimulator(simulator)
         }
         .frame(maxWidth: .infinity, alignment: .center)
@@ -74,11 +84,17 @@ private struct SidebarButton: View {
 struct NoActiveSimulatorsView: View {
     @Bindable var manager: SimulatorManager
 
+    init(manager: Bindable<SimulatorManager>) {
+        self._manager = manager
+    }
+
     var body: some View {
         VStack {
             ContentUnavailableView("No Active Simulator", systemImage: "tray")
             NavigationLink("Fetch Inactive Simulators") {
-                InacvtiveSimulatorsView(manager: manager)
+                InacvtiveSimulatorsView(
+                    manager: manager
+                )
             }
             .accessibilityIdentifier("fetchButton")
         }

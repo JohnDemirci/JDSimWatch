@@ -30,7 +30,7 @@ extension SimulatorDetailView.DocumentsNavigatorButtonView {
     @Observable
     final class ViewManager {
         struct Environment {
-            let simulator: Simulator_Legacy
+            let simulator: Simulator
             let folderClient: FolderClient
         }
 

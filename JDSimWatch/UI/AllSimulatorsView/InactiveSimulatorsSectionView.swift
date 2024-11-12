@@ -9,18 +9,15 @@ import Combine
 import SwiftUI
 
 struct InactiveSimulatorsSectionView: View {
-    let osVersions: [InactiveSimulatorParser.OSVersion]
     @Bindable var manager: SimulatorManager
 
     var body: some View {
-        ForEach(osVersions) { osVersion in
-            Section("\(osVersion.name) \(osVersion.version)") {
-                InactiveSimulatorsSectionContentView(
-                    manager: manager,
-                    versionAndSimulators: osVersion,
-                    client: manager.simulatorClient
-                )
-            }
+        ForEach(manager.shutdownSimulators) { simulator in
+            InactiveSimulatorsSectionContentView(
+                manager: manager,
+                simulator: simulator,
+                client: manager.simulatorClient
+            )
         }
     }
 }
@@ -31,48 +28,48 @@ private struct InactiveSimulatorsSectionContentView: View {
 
     init(
         manager: SimulatorManager,
-        versionAndSimulators: InactiveSimulatorParser.OSVersion,
+        simulator: Simulator,
         client: SimulatorClient
     ) {
         self.manager = manager
         self.viewModel = .init(
-            versionAndSimulators: versionAndSimulators,
+            simulator: simulator,
             client: client
         )
     }
 
     var body: some View {
-        ForEach(viewModel.versionAndSimulators.devices) { device in
-            LabeledContent(device.name) {
-                HStack {
-                    Button(
-                        action: {
-                            viewModel.openSimulator(device.uuid)
-                        },
-                        label: {
-                            Image(systemName: "play")
-                        }
-                    )
-
-                    Button("Delete") {
-                        viewModel.deleteSimulator(device.uuid)
-                        manager.fetchSimulators()
+        LabeledContent(viewModel.simulator.name ?? "") {
+            HStack {
+                Button(
+                    action: {
+                        viewModel.openSimulator(viewModel.simulator.id)
+                    },
+                    label: {
+                        Image(systemName: "play")
                     }
+                )
+
+                Button("Delete") {
+                    viewModel.deleteSimulator(viewModel.simulator.id)
+                    manager.fetchBootedSimulators()
+                    manager.fetchShutdownSimulators()
                 }
             }
-            .alert(item: $viewModel.failure) {
-                Alert(title: Text($0.description))
-            }
-            .onReceive(viewModel.didOpenPublisher) {
-                manager.fetchSimulators()
-            }
+        }
+        .alert(item: $viewModel.failure) {
+            Alert(title: Text($0.description))
+        }
+        .onReceive(viewModel.didOpenPublisher) {
+            manager.fetchBootedSimulators()
+            manager.fetchShutdownSimulators()
         }
     }
 }
 
 @Observable
 private final class InactiveSimulatorsSectionContentViewModel {
-    let versionAndSimulators: InactiveSimulatorParser.OSVersion
+    let simulator: Simulator
     let client: SimulatorClient
     var failure: Failure?
 
@@ -83,10 +80,10 @@ private final class InactiveSimulatorsSectionContentViewModel {
     }
 
     init(
-        versionAndSimulators: InactiveSimulatorParser.OSVersion,
+        simulator: Simulator,
         client: SimulatorClient
     ) {
-        self.versionAndSimulators = versionAndSimulators
+        self.simulator = simulator
         self.client = client
     }
 
@@ -103,7 +100,6 @@ private final class InactiveSimulatorsSectionContentViewModel {
     func deleteSimulator(_ id: String) {
         switch client.deleteSimulator(simulator: id) {
         case .success:
-
             break
 
         case .failure(let error):

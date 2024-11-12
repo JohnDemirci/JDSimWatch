@@ -7,33 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A2311EBA-CC18-48A1-9147-6B384229F44B"
+            uuid = "6B2B089B-F59B-4665-A245-D521D7C18CC0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "JDSimWatch/UI/AllSimulatorsView/InactiveSimulatorView.swift"
+            filePath = "JDSimWatchTests/FetchSimulatorsTest.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4EFE0B9C-A880-4B0C-9DA9-479B17765931"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "JDSimWatch/UI/AllSimulatorsView/InactiveSimulatorsSectionView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "testExample()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

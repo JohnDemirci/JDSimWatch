@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct SimulatorDetailView: View {
-    private let simulator: Simulator_Legacy
+    private let simulator: Simulator
     private let simulatorClient: SimulatorClient
     private let folderClient: FolderClient
     private let lifecycleObserver: LifecycleObserver
 
     init(
-        simulator: Simulator_Legacy,
+        simulator: Simulator,
         simulatorClient: SimulatorClient = .live,
         folderClient: FolderClient = .live,
         lifecycleObserver: LifecycleObserver
@@ -53,12 +53,12 @@ struct SimulatorDetailView: View {
                 folderClient: folderClient
             )
         }
-		.navigationTitle(simulator.name)
+		.navigationTitle(simulator.name ?? "")
     }
 }
 
 private struct ProcessesNavigationLink: View {
-	let simulator: Simulator_Legacy
+	let simulator: Simulator
     let simulatorClient: SimulatorClient
     let observer: LifecycleObserver
 
@@ -82,7 +82,7 @@ private struct ProcessesNavigationLink: View {
 }
 
 private struct InstalledApplicationsButtonView: View {
-	let simulator: Simulator_Legacy
+	let simulator: Simulator
     let simulatorClient: SimulatorClient
     let folderClient: FolderClient
 

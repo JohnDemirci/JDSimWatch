@@ -28,7 +28,7 @@ extension EraseSimulatorContentsView {
     @Observable
     final class ViewManager {
         struct Environment {
-            let simulator: Simulator_Legacy
+            let simulator: Simulator
             let simulatorClient: SimulatorClient
         }
 

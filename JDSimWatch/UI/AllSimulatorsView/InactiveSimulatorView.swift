@@ -9,20 +9,15 @@ import SwiftUI
 
 struct InacvtiveSimulatorsView: View {
     @Environment(\.dismiss) private var dismiss
-    @Bindable var viewModel: InactiveSimulatorViewModel
     @Bindable var manager: SimulatorManager
 
     init(manager: SimulatorManager) {
         self.manager = manager
-        self.viewModel = .init(simulatorClient: manager.simulatorClient)
     }
 
     var body: some View {
         List {
-            InactiveSimulatorsSectionView(
-                osVersions: viewModel.osAndSimulators,
-                manager: manager
-            )
+            InactiveSimulatorsSectionView(manager: manager)
         }
         .toolbar {
             ToolbarItem(placement: .navigation) {
@@ -33,18 +28,6 @@ struct InacvtiveSimulatorsView: View {
                     }
                 )
             }
-        }
-        .onAppear {
-            viewModel.fetchAllSimulators()
-        }
-        .onChange(of: manager.simulators, initial: false) { _, _ in
-            viewModel.fetchAllSimulators()
-        }
-        .alert(item: $viewModel.failure) {
-            Alert(title: Text($0.description))
-        }
-        .alert(item: $viewModel.failure) {
-            Alert(title: Text($0.description))
         }
         .navigationTitle("Simulator List")
     }

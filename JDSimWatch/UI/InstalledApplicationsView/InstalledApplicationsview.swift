@@ -11,10 +11,10 @@ import SwiftUI
 struct InstalledApplicationsView: View {
     @Environment(\.dismiss) private var dismiss
 	@Bindable private var viewModel = InstalledApplicationsViewModel()
-	let simulator: Simulator_Legacy
+	let simulator: Simulator
 
     init(
-        simulator: Simulator_Legacy,
+        simulator: Simulator,
         simulatorClient: SimulatorClient,
         folderClient: FolderClient
     ) {
